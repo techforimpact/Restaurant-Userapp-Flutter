@@ -56,7 +56,7 @@ class _BookingTableState extends State<BookingTable> {
 
     return FirebaseFirestore.instance
         .collection('tableBooking')
-        .where('restaurent_id', isEqualTo: widget.restaurantModel.id)
+        .where('restaurant', isEqualTo: widget.restaurantModel.get('name'))
         .snapshots();
     // return widget.restaurantModel.reference.collection('tableBooking').snapshots();
   }
@@ -200,15 +200,20 @@ String chars =
 
   List<DateTimeRange> convertStreamResultMock({required dynamic streamResult}) {
     if (streamResult == null) {
+      print('stream is null');
     } else {
+      print('stream is not null');
+
       var s = streamResult as QuerySnapshot<Map<String, dynamic>>;
       s.docs.forEach((event) {
+        print('in the for each');
         converted.add(DateTimeRange(
             start:
                 DateTime.fromMicrosecondsSinceEpoch(event.get('bookingStart')),
             end: DateTime.fromMicrosecondsSinceEpoch(event.get('bookingEnd'))));
       });
     }
+    print(converted);
     return converted;
   }
 
@@ -250,7 +255,7 @@ String chars =
           bookingGridChildAspectRatio: 1,
           bookingService: mockBookingService,
           bookingButtonColor: AppColors.greenColor,
-        
+          
           bookingButtonText: 'Book Now',
           convertStreamResultToDateTimeRanges: convertStreamResultMock,
           getBookingStream: getBookingStreamMock,

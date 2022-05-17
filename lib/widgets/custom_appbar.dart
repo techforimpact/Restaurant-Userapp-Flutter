@@ -70,10 +70,12 @@ class _CustomAppbarState extends State<CustomAppbar> {
             },
             child: Stack(
               children: [
+
                 const Padding(
                     padding: EdgeInsets.fromLTRB(5, 15, 30, 5),
                     child: Icon(Icons.shopping_cart)),
-                logic.totalCartCount == null
+               GetBuilder<HomeLogic>(builder: (controller){
+                      return logic.totalCartCount == null
                     ? const SizedBox()
                     : Positioned(
                         top: 5,
@@ -82,17 +84,18 @@ class _CustomAppbarState extends State<CustomAppbar> {
                           backgroundColor: customThemeColor,
                           radius: 10,
                           child: 
-                              GetBuilder<HomeLogic>(builder: (controller){
-   return Text(
+                          Text(
                             '${controller.totalCartCount}',
                             style: const TextStyle( fontFamily: 'Poppins',
                                 fontWeight: FontWeight.w600,
                                 color: Colors.white,
                                 fontSize: 10),
-                          );
-                              })
+                          )
+                             
                           
-                        ))
+                        ));
+               }),
+                
               ],
             ),
           )

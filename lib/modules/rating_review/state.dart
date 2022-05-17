@@ -21,7 +21,7 @@ class RatingReviewState {
     buttonTextStyle = const TextStyle(
     fontFamily: 'Poppins',
 
-       fontSize: 30, fontWeight: FontWeight.w800, color: Colors.white);
+       fontSize: 30, fontWeight: FontWeight.w800, color: Colors.black);
     
 
   }

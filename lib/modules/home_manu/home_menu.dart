@@ -49,12 +49,14 @@ class _HomeMenuState extends State<HomeMenu> {
         height: MediaQuery.of(context).size.height,
         child: Stack(
           children: [
+            //entre page section
             Padding(
               padding: const EdgeInsets.only(left: 40),
               child: currentSet ? currentWidget : const TakeAway(),
             ),
-           
+           //main menu section
             Positioned(
+    
               top: MediaQuery.of(context).size.height,
               child: Transform.rotate(
                 angle: -math.pi / 2,
@@ -63,6 +65,7 @@ class _HomeMenuState extends State<HomeMenu> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
+                    // page names 
                     Container(
                     color: AppColors.greenColor,
 
@@ -74,10 +77,11 @@ class _HomeMenuState extends State<HomeMenu> {
                         ],
                       ),
                     ),
+                    // indicator
                     AnimatedContainer(
                       duration: const Duration(milliseconds: 250),
                       margin: EdgeInsets.only(left: paddingLeft),
-                      width: 270,
+                      width: MediaQuery.of(context).size.height / 3,
                       height: 55,
                       child: Stack(
                         children: [

@@ -29,7 +29,6 @@ class _BookNowRestaurentListWidgetState
                 List<QueryDocumentSnapshot<Map<String, dynamic>>>>(
             future: _bookNowLogic.getRestaurentList(),
             builder: (context, snapshot) {
-              Get.find<HomeLogic>().latitude!;
               if (snapshot.hasData && Get.find<HomeLogic>().latitude!=null) {
                 var data = snapshot.data!;
            

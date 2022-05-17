@@ -11,7 +11,7 @@ class EditProfileState {
         color: Colors.black.withOpacity(0.4),
     fontFamily: 'Poppins',);
   
-    buttonTextStyle =const TextStyle(   fontSize: 17, fontWeight: FontWeight.w900, color: Colors.white,
+    buttonTextStyle =const TextStyle(   fontSize: 17, fontWeight: FontWeight.w900, color: Colors.black,
     fontFamily: 'Poppins',);
     
    

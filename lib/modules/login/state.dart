@@ -17,7 +17,7 @@ class LoginState {
     fontFamily: 'Poppins',);
     
 
-    buttonTextStyle = const TextStyle(         fontSize: 17, fontWeight: FontWeight.w900, color: Colors.white,
+    buttonTextStyle = const TextStyle(         fontSize: 17, fontWeight: FontWeight.w900, color: Colors.black,
     fontFamily: 'Poppins',);
     
 

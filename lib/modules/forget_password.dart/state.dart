@@ -15,7 +15,7 @@ class ForgetPasswordState {
         color: Colors.black.withOpacity(0.4),
     fontFamily: 'Poppins',);
 
-    buttonTextStyle = const TextStyle(      fontSize: 17, fontWeight: FontWeight.w900, color: Colors.white,
+    buttonTextStyle = const TextStyle(      fontSize: 17, fontWeight: FontWeight.w900, color: Colors.black,
     fontFamily: 'Poppins',);
 
     doNotTextStyle = const TextStyle(      fontSize: 14, fontWeight: FontWeight.normal, color: Colors.black38,

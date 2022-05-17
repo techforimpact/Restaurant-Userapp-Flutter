@@ -69,13 +69,13 @@ class CartState {
 ); 
     
    
-    buttonTextStyle = const TextStyle(  fontSize: 17, fontWeight: FontWeight.w900, color: Colors.white,
+    buttonTextStyle = const TextStyle(  fontSize: 17, fontWeight: FontWeight.w900, color: Colors.black,
     fontFamily: 'Poppins',
 
 ); 
      
     billLabelTextStyleWithCustomColor = const TextStyle(  fontSize: 15, fontWeight: FontWeight.w700, color: customThemeColor,
-    fontFamily: 'Poppins',
+    fontFamily: 'Poppins', 
 
 ); 
   
