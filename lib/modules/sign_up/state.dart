@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 import '../../utils/color.dart';
 
@@ -15,7 +14,7 @@ class SignUpState {
         fontWeight: FontWeight.w900,
         color: Colors.black.withOpacity(0.4));
     buttonTextStyle = const TextStyle( fontFamily: 'Poppins',
-        fontSize: 17, fontWeight: FontWeight.w900, color: Colors.white);
+        fontSize: 17, fontWeight: FontWeight.w900, color: Colors.black);
     doNotTextStyle = const TextStyle( fontFamily: 'Poppins',
         fontSize: 14, fontWeight: FontWeight.normal, color: Colors.black38);
     registerTextStyle = const TextStyle( fontFamily: 'Poppins',

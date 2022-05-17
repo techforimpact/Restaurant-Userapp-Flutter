@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 import '../../utils/color.dart';
 
@@ -15,7 +14,7 @@ class PaymentState {
     fontFamily: 'Poppins',); 
     
  
-    buttonTextStyle =const TextStyle(        fontSize: 30, fontWeight: FontWeight.w800, color: Colors.white,
+    buttonTextStyle =const TextStyle(        fontSize: 30, fontWeight: FontWeight.w800, color: Colors.black,
     fontFamily: 'Poppins',); 
     
   

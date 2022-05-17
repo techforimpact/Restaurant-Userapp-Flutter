@@ -5,7 +5,6 @@ import 'package:book_a_table/modules/home_manu/home_menu.dart';
 import 'package:book_a_table/utils/color.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 import '../../controllers/general_controller.dart';
 import '../login/view.dart';

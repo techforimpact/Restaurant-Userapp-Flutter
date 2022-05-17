@@ -1,6 +1,4 @@
-import 'package:book_a_table/utils/text_style.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 import '../../utils/color.dart';
 

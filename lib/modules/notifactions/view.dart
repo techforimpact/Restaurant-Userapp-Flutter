@@ -4,7 +4,6 @@ import 'package:book_a_table/utils/text_style.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_switch/flutter_switch.dart';
 import 'package:get/get.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:syncfusion_flutter_sliders/sliders.dart';
 
 import '../../utils/color.dart';

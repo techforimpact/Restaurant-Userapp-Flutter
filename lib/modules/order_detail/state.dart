@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 import '../../utils/color.dart';
 
@@ -52,7 +51,7 @@ class OrderDetailState {
     grandTotalTextStyle =  const TextStyle(      fontSize: 25, fontWeight: FontWeight.w900, color: customThemeColor,
     fontFamily: 'Poppins',); 
     
-    buttonTextStyle = const TextStyle(        fontSize: 17, fontWeight: FontWeight.w900, color: Colors.white,
+    buttonTextStyle = const TextStyle(        fontSize: 17, fontWeight: FontWeight.w900, color: Colors.black,
     fontFamily: 'Poppins',); 
 
     restaurantInfoLabelTextStyle = const TextStyle(      fontSize: 13, fontWeight: FontWeight.w800, color: customTextGreyColor,

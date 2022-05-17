@@ -1,7 +1,6 @@
 import 'dart:developer';
 
 import 'package:animation_wrappers/animation_wrappers.dart';
-import 'package:book_a_table/modules/product_detail/view.dart';
 import 'package:book_a_table/utils/text_style.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
@@ -174,8 +173,8 @@ class _AllBookingPageState extends State<AllBookingPage> {
                                     padding: const EdgeInsets.fromLTRB(
                                         15, 30, 15, 0),
                                     child: Container(
-                                      height:
-                                          MediaQuery.of(context).size.height,
+                                      // height:
+                                      //     MediaQuery.of(context).size.height,
                                       decoration: BoxDecoration(
                                         color: Colors.white,
                                         borderRadius:
