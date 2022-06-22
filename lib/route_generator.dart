@@ -1,8 +1,9 @@
 
-import 'package:book_a_table/modules/home_manu/home_menu.dart';
+import 'package:book_a_table/modules/home_manu/view.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import 'modules/all_bookings/view.dart';
 import 'modules/all_orders/view.dart';
 import 'modules/cart/view.dart';
 import 'modules/coupons/view.dart';
@@ -12,7 +13,6 @@ import 'modules/forget_password.dart/view.dart';
 import 'modules/login/view.dart';
 import 'modules/login/view_phone_login.dart';
 import 'modules/map/view.dart';
-import 'modules/my_booking/view.dart';
 import 'modules/notifactions/view.dart';
 import 'modules/payment/view.dart';
 import 'modules/pending_review/view.dart';

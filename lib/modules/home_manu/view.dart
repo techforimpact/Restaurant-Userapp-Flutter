@@ -3,13 +3,12 @@
 
 import 'dart:math' as math;
 
-import 'package:book_a_table/modules/home/view.dart';
 import 'package:book_a_table/modules/profile/view.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../../utils/color.dart';
 import '../../widgets/app_clipper.dart';
-import '../book_now/view.dart';
+import '../home/view.dart';
 import '../home/logic.dart';
 import '../map/view.dart';
 
@@ -52,7 +51,7 @@ class _HomeMenuState extends State<HomeMenu> {
             //entre page section
             Padding(
               padding: const EdgeInsets.only(left: 40),
-              child: currentSet ? currentWidget : const TakeAway(),
+              child: currentSet ? currentWidget : const Home(),
             ),
            //main menu section
             Positioned(
@@ -141,7 +140,7 @@ class _HomeMenuState extends State<HomeMenu> {
           } else if (index == 0) {
             shouldShowFloat = false;
 
-            currentWidget = const TakeAway();
+            currentWidget = const Home();
           }
         });
       },
@@ -173,41 +172,3 @@ class _HomeMenuState extends State<HomeMenu> {
 }
 
 
-//this is the category button inside the book now widget, shows Amenities
-
-class CategoryButton extends StatelessWidget {
-  final IconData icon;
-  final Color color;
-  final Function onPressed;
-  final bool isSelected;
-
-  const CategoryButton(
-      {Key? key,
-      required this.icon,
-      required this.color,
-      required this.onPressed,
-      required this.isSelected})
-      : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return RawMaterialButton(
-      onPressed: () {
-        onPressed.call();
-      },
-      elevation: 0,
-      highlightElevation: 0,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
-      fillColor: isSelected ? color.withAlpha(100) : kLightGrey,
-      constraints: const BoxConstraints.tightFor(
-        width: 70,
-        height: 75,
-      ),
-      child: Icon(
-        icon,
-        size: 30,
-        color: color,
-      ),
-    );
-  }
-}

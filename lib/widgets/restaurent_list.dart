@@ -1,5 +1,4 @@
 import 'package:animation_wrappers/animations/faded_slide_animation.dart';
-import 'package:book_a_table/modules/book_now/logic.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 import 'package:flutter/material.dart';
@@ -7,9 +6,9 @@ import 'package:get/get.dart';
 
 import 'package:geolocator/geolocator.dart' as geo_locator;
 
-import '../../../utils/color.dart';
-import '../../home/logic.dart';
-import '../../restaurant_detail/view.dart';
+import '../utils/color.dart';
+import '../modules/home/logic.dart';
+import '../modules/restaurant_detail/view.dart';
 
 class BookNowRestaurentListWidget extends StatefulWidget {
   const BookNowRestaurentListWidget({Key? key}) : super(key: key);

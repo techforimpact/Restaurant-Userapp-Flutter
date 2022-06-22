@@ -12,7 +12,7 @@ import '../../utils/color.dart';
 import '../home/logic.dart';
 import '../image_full_view/view.dart';
 import '../product_detail/view.dart';
-import 'table_booking.dart';
+import '../book_now/view.dart';
 import 'logic.dart';
 import 'state.dart';
 

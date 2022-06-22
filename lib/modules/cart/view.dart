@@ -16,7 +16,7 @@ import '../../widgets/custom_dialog.dart';
 import '../../widgets/custom_dotted_divider.dart';
 import '../home/logic.dart';
 import '../payment/view.dart';
-import '../restaurant_detail/table_booking.dart';
+import '../book_now/view.dart';
 import 'logic.dart';
 import 'state.dart';
 

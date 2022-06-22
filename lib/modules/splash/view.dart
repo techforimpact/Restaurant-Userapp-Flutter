@@ -1,7 +1,7 @@
 import 'dart:async';
 
 
-import 'package:book_a_table/modules/home_manu/home_menu.dart';
+import 'package:book_a_table/modules/home_manu/view.dart';
 import 'package:book_a_table/utils/color.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
