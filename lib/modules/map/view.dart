@@ -1,13 +1,11 @@
-// ignore_for_file: prefer_const_constructors
-
+import 'package:book_a_table/modules/home/logic.dart';
+import 'package:book_a_table/modules/restaurant_detail/view.dart';
+import 'package:book_a_table/utils/color.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import '../../utils/color.dart';
-import '../home/logic.dart';
-import '../restaurant_detail/view.dart';
 import 'logic.dart';
 import 'state.dart';
 
@@ -80,7 +78,7 @@ class _MapPageState extends State<MapPage> {
 
   _restaurantList(index, QueryDocumentSnapshot snapshot) {
     String _id = snapshot.id;
-    String _image = snapshot.get('image') ?? '';
+    String _image = snapshot.get('image');
     String _title = snapshot.get('name');
     String _address = snapshot.get('address');
     return AnimatedBuilder(
@@ -93,7 +91,7 @@ class _MapPageState extends State<MapPage> {
         }
         return Center(
           child: SizedBox(
-            height: 180.0,
+            height: 90.0,
             width: Curves.easeInOut.transform(value) * 350.0,
             child: widget,
           ),
@@ -103,41 +101,41 @@ class _MapPageState extends State<MapPage> {
         padding: const EdgeInsets.fromLTRB(8, 0, 8, 0),
         child: InkWell(
           onTap: () {
-            //!---
             Get.to(RestaurantDetailPage(
               restaurantModel: snapshot,
             ));
           },
           child: Container(
-         
+            height: 90.0,
+            width: 340.0,
             decoration: BoxDecoration(
               color: Colors.white,
               borderRadius: BorderRadius.circular(13),
-              // boxShadow: [
-              //   BoxShadow(
-              //     color: customThemeColor.withOpacity(0.19),
-              //     blurRadius: 40,
-              //     spreadRadius: 0,
-              //     offset: const Offset(0, 15), // changes position of shadow
-              //   ),
-              // ],
+              boxShadow: [
+                BoxShadow(
+                  color: customThemeColor.withOpacity(0.19),
+                  blurRadius: 40,
+                  spreadRadius: 0,
+                  offset: const Offset(0, 15), // changes position of shadow
+                ),
+              ],
             ),
             child: Padding(
               padding: const EdgeInsets.fromLTRB(12, 14, 12, 14),
-              child: Column(
+              child: Row(
                 children: <Widget>[
                   Hero(
                     tag: "hero-grid-$_id",
                     child: Material(
                       color: Colors.transparent,
                       child: Container(
-                        height: 80.0,
-                        width: 80.0,
+                        height: 59.0,
+                        width: 64.0,
                         decoration: BoxDecoration(
                             color: Colors.white,
                             borderRadius: BorderRadius.circular(5),
                             image: DecorationImage(
-                                image: AssetImage('assets/splash_01.png'),
+                                image: NetworkImage(_image),
                                 fit: BoxFit.cover)),
                       ),
                     ),
@@ -151,14 +149,12 @@ class _MapPageState extends State<MapPage> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
                         Text(
-                          _title.length > 13
-                              ? '${_title.substring(0, 13)}...'
-                              : _title,
+                          _title.length > 13 ? '${_title.substring(0,13)}...': _title ,
                           softWrap: true,
                           maxLines: 2,
-                          style: TextStyle( fontFamily: 'Poppins',
-                          overflow: TextOverflow.ellipsis,
-                              
+                          style: GoogleFonts.nunito(
+                              textStyle:
+                                  TextStyle(overflow: TextOverflow.ellipsis),
                               fontSize: 20,
                               fontWeight: FontWeight.w900,
                               color: customGreenColor),
@@ -178,7 +174,7 @@ class _MapPageState extends State<MapPage> {
                                 width: 140.0,
                                 child: Text(
                                   _address,
-                                  style: TextStyle( fontFamily: 'Poppins',
+                                  style: GoogleFonts.nunito(
                                       fontWeight: FontWeight.w900,
                                       fontSize: 14,
                                       color: const Color(0xffBDBDBD)),
@@ -205,8 +201,6 @@ class _MapPageState extends State<MapPage> {
 
   @override
   Widget build(BuildContext context) {
-    var homeController = Get.find<HomeLogic>();
-
     createMarker(context);
     return Scaffold(
       backgroundColor: const Color(0xFF1E2026),
@@ -227,25 +221,26 @@ class _MapPageState extends State<MapPage> {
                 ],
               );
             } else if (snapshot.hasData) {
-              var docList = snapshot.data!.docs;
+              var docList=snapshot.data!.docs;
               for (var element in docList) {
                 allSnapshot.add(element);
                 allMarkers.add(Marker(
                     onTap: () {
                       //-----------
-                      _pageController!.jumpToPage(docList.indexOf(element));
+                        _pageController!
+                            .jumpToPage(docList.indexOf(element));
+                  
                     },
                     icon: BitmapDescriptor.defaultMarkerWithHue(
-                      BitmapDescriptor.hueOrange,
+                      BitmapDescriptor.hueRed,
                     ),
                     markerId: MarkerId(element.get('name')),
                     draggable: false,
                     infoWindow: InfoWindow(
                         onTap: () {
-                          //!-----------
-                          // Get.to(RestaurantDetailPage(
-                          //   restaurantModel: element,
-                          // ));
+                          Get.to(RestaurantDetailPage(
+                            restaurantModel: element,
+                          ));
                         },
                         title: element.get('name'),
                         snippet: element.get('address')),
@@ -262,37 +257,42 @@ class _MapPageState extends State<MapPage> {
                         ? GoogleMap(
                             mapType: MapType.normal,
                             initialCameraPosition: CameraPosition(
-                                target: LatLng(homeController.latitude!,
-                                    homeController.longitude!),
+                                target: LatLng(Get.find<HomeLogic>().latitude!,
+                                    Get.find<HomeLogic>().longitude!),
                                 zoom: 13.0),
                             markers: Set.from(allMarkers),
                             onMapCreated: (GoogleMapController controller) {
                               _controller = controller;
-                              // _controller.setMapStyle(_mapStyle);
+                              // _controller?.setMapStyle(_mapStyle);
                             },
                           )
                         : GoogleMap(
+                        
                             mapType: MapType.normal,
-                            initialCameraPosition: CameraPosition(
-                                target: LatLng(
-                                    double.parse(snapshot.data!.docs[0]
-                                        .get('lat')
-                                        .toString()),
-                                    double.parse(snapshot.data!.docs[0]
-                                        .get('lng')
-                                        .toString())),
+                             initialCameraPosition: CameraPosition(
+                                target: LatLng(Get.find<HomeLogic>().latitude!,
+                                    Get.find<HomeLogic>().longitude!),
                                 zoom: 13.0),
+                            // initialCameraPosition: CameraPosition(
+                            //     target: LatLng(
+                            //         double.parse(snapshot.data!.docs[0]
+                            //             .get('lat')
+                            //             .toString()),
+                            //         double.parse(snapshot.data!.docs[0]
+                            //             .get('lng')
+                            //             .toString())),
+                            //     zoom: 13.0),
                             markers: Set.from(allMarkers),
                             onMapCreated: (GoogleMapController controller) {
                               _controller = controller;
-                              // _controller.setMapStyle(_mapStyle);
+                              // _controller?.setMapStyle(_mapStyle);
                             },
                           ),
                   ),
                   Align(
                     alignment: Alignment.bottomCenter,
                     child: SizedBox(
-                      height: 250,
+                      height: 200,
                       child: PageView.builder(
                         controller: _pageController,
                         itemCount: snapshot.data!.docs.length,
@@ -300,6 +300,53 @@ class _MapPageState extends State<MapPage> {
                           return _restaurantList(
                               index, snapshot.data!.docs[index]);
                         },
+                      ),
+                    ),
+                  ),
+                  Positioned(
+                    top: 10,
+                    left: (MediaQuery.of(context).size.width / 2) -
+                        (MediaQuery.of(context).size.width * .4 / 2),
+                    child: SafeArea(
+                      child: InkWell(
+                        onTap: () {
+                          Get.back();
+                        },
+                        child: Container(
+                          height: 60,
+                          width: MediaQuery.of(context).size.width * .4,
+                          decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(30),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: customThemeColor.withOpacity(0.19),
+                                  blurRadius: 40,
+                                  spreadRadius: 0,
+                                  offset: const Offset(
+                                      0, 15), // changes position of shadow
+                                ),
+                              ]),
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 15),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                SvgPicture.asset('assets/mapHomeIcon.svg'),
+                                const SizedBox(
+                                  width: 10,
+                                ),
+                                Text(
+                                  'Home',
+                                  style: GoogleFonts.nunito(
+                                      fontWeight: FontWeight.w900,
+                                      fontSize: 18,
+                                      color: customThemeColor),
+                                )
+                              ],
+                            ),
+                          ),
+                        ),
                       ),
                     ),
                   ),

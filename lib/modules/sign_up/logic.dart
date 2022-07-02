@@ -49,6 +49,7 @@ class SignUpLogic extends GetxController {
     log('-----------------OtpFunctionStartHere-----------------');
     FirebaseAuth _auth = FirebaseAuth.instance;
     _auth.verifyPhoneNumber(
+      
       phoneNumber: phone!,
       timeout: const Duration(seconds: 55),
       verificationCompleted: (AuthCredential credential) async {

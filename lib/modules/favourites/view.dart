@@ -321,7 +321,7 @@ class _FavouritesPageState extends State<FavouritesPage> {
                                                                             child:
                                                                                 Align(
                                                                               alignment: Alignment.center,
-                                                                              child: Text('Rs${productsSnapshot.data!.docs[index].get('original_price')}', style: TextStyle( fontFamily: 'Poppins',fontSize: 14, fontWeight: FontWeight.w700, color: customTextGreyColor.withOpacity(0.5)).copyWith(decoration: TextDecoration.lineThrough)),
+                                                                              child: Text('Rs ${productsSnapshot.data!.docs[index].get('original_price')}', style: TextStyle( fontFamily: 'Poppins',fontSize: 14, fontWeight: FontWeight.w700, color: customTextGreyColor.withOpacity(0.5)).copyWith(decoration: TextDecoration.lineThrough)),
                                                                             ),
                                                                           ),
                                                                         ],
@@ -356,7 +356,7 @@ class _FavouritesPageState extends State<FavouritesPage> {
                                                                                 child: Padding(
                                                                                   padding: const EdgeInsets.fromLTRB(0, 2, 0, 2),
                                                                                   child: Center(
-                                                                                    child: Text('Rs${productsSnapshot.data!.docs[index].get('dis_price')}', style: TextStyle( fontFamily: 'Poppins',fontSize: 14, fontWeight: FontWeight.w700, color: customTextGreyColor.withOpacity(0.5)).copyWith(color: Colors.white)),
+                                                                                    child: Text('Rs ${productsSnapshot.data!.docs[index].get('dis_price')}', style: TextStyle( fontFamily: 'Poppins',fontSize: 14, fontWeight: FontWeight.w700, color: customTextGreyColor.withOpacity(0.5)).copyWith(color: Colors.white)),
                                                                                   ),
                                                                                 ),
                                                                               ),

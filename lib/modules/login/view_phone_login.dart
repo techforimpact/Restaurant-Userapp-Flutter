@@ -61,10 +61,15 @@ class _PhoneLoginViewState extends State<PhoneLoginView>
               appBar: AppBar(
                 backgroundColor: Theme.of(context).scaffoldBackgroundColor,
                 elevation: 0,
-                leading:  const Icon(
-                  Icons.arrow_back_ios,
-                  color: customThemeColor,
-                  size: 25,
+                leading:  GestureDetector(
+                  onTap: (){
+                    Get.back();
+                  },
+                  child: const Icon(
+                    Icons.arrow_back_ios,
+                    color: customThemeColor,
+                    size: 25,
+                  ),
                 ),
               ),
               body: SingleChildScrollView(
@@ -95,7 +100,7 @@ class _PhoneLoginViewState extends State<PhoneLoginView>
                               borderRadius: BorderRadius.circular(10),
                             ),
                             child: IntlPhoneField(
-                              initialCountryCode: 'NZ',
+                              initialCountryCode: 'IN',
                               controller: _loginLogic.phoneController,
                               style: const TextStyle( fontFamily: 'Poppins',color: Colors.black),
                               inputFormatters: [

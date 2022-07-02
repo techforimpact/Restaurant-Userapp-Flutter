@@ -159,7 +159,7 @@ class _PaymentPageState extends State<PaymentPage> {
                                         child: Center(
                                           child: Text(
                                             'No Saved Card Found',
-                                            style: TextStyle( fontFamily: 'Poppins',
+                                            style: TextStyle( 
                                                 fontWeight: FontWeight.w800,
                                                 fontSize: 20,
                                                 color: Colors.white),
@@ -373,7 +373,7 @@ class _PaymentPageState extends State<PaymentPage> {
                         borderRadius: BorderRadius.circular(30)),
                     child: Center(
                       child: Text(
-                        'PAY Rs${_cartLogic.grandTotal}',
+                        'PAY Rs ${_cartLogic.grandTotal}',
                         style: state.buttonTextStyle,
                       ),
                     )),

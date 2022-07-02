@@ -37,7 +37,7 @@ const Color customGreenColor = AppColors.greenColor;
 const Color customTextGreyColor = Colors.black;
 
 class AppColors {
-  static const Color greenColor = Color(0XFFc4de8c);
-  static const Color greenLightColor = Color(0XFFe1edc8);
+  static const Color greenColor = Color(0XFFFF3633);
+  static const Color greenLightColor = Color.fromARGB(255, 247, 198, 198);
   static const Color redColor = Color(0XFFcc3e12);
 }

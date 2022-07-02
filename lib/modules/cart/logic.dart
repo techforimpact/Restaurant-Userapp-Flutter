@@ -19,6 +19,8 @@ class CartLogic extends GetxController {
   bool? showBill = false;
   bool? hideCharity = true;
   bool? isTakeAway=false;
+  bool isTableBook=false;
+  
   QueryDocumentSnapshot<Map<String, dynamic>> ?restaurentDocumentSnapshot;
   getTotalBillOfCart() async {
     totalPrice = 0;

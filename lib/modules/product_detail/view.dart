@@ -252,7 +252,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                               padding: const EdgeInsets.fromLTRB(0, 2, 0, 2),
                               child: Center(
                                 child: Text(
-                                    'Rs${widget.productModel!.get('dis_price')}',
+                                    'Rs ${widget.productModel!.get('dis_price')}',
                                     style: state.productPriceStyle),
                               ),
                             ),
@@ -261,7 +261,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                         Padding(
                           padding: const EdgeInsets.only(left: 15),
                           child: Text(
-                              'Rs${widget.productModel!.get('original_price')}',
+                              'Rs ${widget.productModel!.get('original_price')}',
                               style: state.productPriceStyle!.copyWith(
                                   color: customTextGreyColor,
                                   decoration: TextDecoration.lineThrough)),

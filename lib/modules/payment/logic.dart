@@ -119,6 +119,9 @@ class PaymentLogic extends GetxController {
               print('notification for restuarent');
         } on FirebaseException catch (e) {
           print('for personal notifcation sending exception with messsage ${e.message}');
+        } catch (e){
+          print('notification sending expcetion. ${e.toString()}');
+
         }
 
         QuerySnapshot queryForFcmPersonal = await FirebaseFirestore.instance

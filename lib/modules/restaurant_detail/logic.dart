@@ -45,16 +45,17 @@ class RestaurantDetailLogic extends GetxController {
   Future<void> onAddMarkerButtonPressed(
       BuildContext context, String name) async {
     markers.add(Marker(
-        // This marker id can be anything that uniquely identifies each marker.
-        markerId: MarkerId(center.toString()),
-        position: center!,
-        infoWindow: InfoWindow(
-          title: name,
-          // snippet: '...',
-        ),
-        icon: await BitmapDescriptor.fromAssetImage(
-            const ImageConfiguration(size: Size(48, 48)),
-            'assets/mapLocator.png')));
+      // This marker id can be anything that uniquely identifies each marker.
+      markerId: MarkerId(center.toString()),
+      position: center!,
+      infoWindow: InfoWindow(
+        title: name,
+        // snippet: '...',
+      ),
+      icon: BitmapDescriptor.defaultMarkerWithHue(
+        BitmapDescriptor.hueRed,
+      ),
+    ));
     update();
   }
 

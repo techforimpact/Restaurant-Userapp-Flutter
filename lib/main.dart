@@ -8,11 +8,13 @@ import 'package:book_a_table/utils/theme.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 import 'controllers/local_notification.dart';
 import 'modules/home/logic.dart';
@@ -207,6 +209,7 @@ void showNotification(RemoteMessage message) {
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   await GetStorage.init();
 
@@ -216,12 +219,12 @@ void main() async {
 
   Get.put(IndexController());
   Get.put(GeneralController());
-  Get.put(HomeLogic());
   Get.put(SignUpLogic());
+  Get.put(HomeLogic());
 
-//   if (defaultTargetPlatform == TargetPlatform.android) {
-//   AndroidGoogleMapsFlutter.useAndroidViewSurface = true;
-// }
+  if (defaultTargetPlatform == TargetPlatform.android) {
+    AndroidGoogleMapsFlutter.useAndroidViewSurface = true;
+  }
 
   runApp(const InitClass());
 }
@@ -234,7 +237,7 @@ class InitClass extends StatefulWidget {
 }
 
 class _InitClassState extends State<InitClass> {
-  final HomeLogic logic = Get.put(HomeLogic());
+  final HomeLogic logic = Get.find<HomeLogic>();
 
   @override
   void initState() {
@@ -263,7 +266,6 @@ class _InitClassState extends State<InitClass> {
   }
 }
 
-
 class MyApp extends StatefulWidget {
   const MyApp({Key? key}) : super(key: key);
 
@@ -282,10 +284,10 @@ class _MyAppState extends State<MyApp> {
 
     ///forground messages
     FirebaseMessaging.onMessage.listen((message) {
-  print('A bg message just showed up :  ${message.messageId}');
-    
-      showNotification(message);
-      
+      print('A bg message just showed up :  ${message.messageId}');
+      try {
+        showNotification(message);
+      } catch (e) {}
     });
 
     FirebaseMessaging.onMessageOpenedApp.listen((message) {
@@ -298,4 +300,3 @@ class _MyAppState extends State<MyApp> {
     return const SplashPage();
   }
 }
-

@@ -1,390 +1,209 @@
-import 'dart:developer';
-
+import 'package:book_a_table/controllers/general_controller.dart';
+import 'package:book_a_table/modules/login/view.dart';
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:liquid_swipe/liquid_swipe.dart';
-import 'dart:math' as math;
 
-import '../../controllers/general_controller.dart';
-import '../../route_generator.dart';
-import '../../utils/color.dart';
-import 'logic.dart';
-import 'state.dart';
-
-class OnBoardPage extends StatefulWidget {
-  const OnBoardPage({Key? key}) : super(key: key);
+class OnBoarding extends StatefulWidget {
+  const OnBoarding({Key? key}) : super(key: key);
 
   @override
-  State<OnBoardPage> createState() => _OnBoardPageState();
+  State<OnBoarding> createState() => _OnBoardingState();
 }
 
-class _OnBoardPageState extends State<OnBoardPage> {
-  final OnBoardLogic logic = Get.put(OnBoardLogic());
-
-  final OnBoardState state = Get.find<OnBoardLogic>().state;
-
-  int page = 0;
-  LiquidController? liquidController;
+class _OnBoardingState extends State<OnBoarding> with TickerProviderStateMixin {
+  late AnimationController _animationController;
+  late Animation<double> _animation;
 
   @override
-  void initState() {
-    liquidController = LiquidController();
-    super.initState();
-  }
+  int _current = 0;
 
-  Widget _buildDot(int index) {
-    double selectedness = Curves.easeOut.transform(
-      math.max(
-        0.0,
-        1.0 - ((page) - index).abs(),
-      ),
-    );
-    double zoom = 1.0 + (2.0 - 1.0) * selectedness;
-    return SizedBox(
-      width: 25.0,
-      child: Center(
-        child: Material(
-          color: Colors.white,
-          type: MaterialType.circle,
-          child: SizedBox(
-            width: 8.0 * zoom,
-            height: 8.0 * zoom,
-          ),
-        ),
-      ),
-    );
+  final CarouselController _controller = CarouselController();
+
+  List<int> list = [1, 2, 3];
+  bool isCompleted = false;
+
+  void initState() {
+    super.initState();
+    _animationController =
+        AnimationController(vsync: this, duration: Duration(seconds: 1));
+    _animation = Tween<double>(begin: 1, end: 1).animate(_animationController);
+    _animationController.forward();
+    _animationController.addListener(() {
+      setState(() {});
+    });
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Stack(
-        children: <Widget>[
-          LiquidSwipe(
-            pages: [
-              ///---first
-              Container(
-                width: MediaQuery.of(context).size.width,
-                height: MediaQuery.of(context).size.height,
-                color: customThemeColor,
-                child: SafeArea(
-                  bottom: false,
-                  child: Stack(
+      body: Padding(
+        padding: const EdgeInsets.all(33.0),
+        child: Container(
+          width: MediaQuery.of(context).size.width,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              Spacer(),
+              CarouselSlider(
+                items: [
+                  Column(
                     children: [
-                      Center(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          mainAxisSize: MainAxisSize.max,
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: <Widget>[
-                            const SizedBox(
-                              height: 20,
-                            ),
-                            Text(
-                              "Kia Ora !",
-                              style: state.mainHeading,
-                            ),
-                            Text(
-                              "Welcome to Book-a-Bite",
-                              style: state.mainTitle,
-                            ),
-                          ],
-                        ),
+                      SizedBox(
+                          height: 200,
+                          child: ScaleTransition(
+                            scale: _animation,
+                            child: SvgPicture.asset(
+                                'assets/onboarding/onboarding1.svg'),
+                          )),
+                      SizedBox(
+                        height: 50,
                       ),
-                      Positioned(
-                        bottom: 0,
-                        child: Align(
-                          alignment: Alignment.center,
-                          child: Image.asset(
-                            'assets/onBoard_01.png',
-                            width: MediaQuery.of(context).size.width * .95,
-                            fit: BoxFit.fill,
-                          ),
-                        ),
-                      ),
-                      Positioned(
-                        bottom: 0,
-                        left: 0,
-                        child: Image.asset(
-                          'assets/onBoardBottom_01.png',
-                          width: MediaQuery.of(context).size.width * .5,
-                          fit: BoxFit.cover,
-                        ),
-                      ),
+                      Text(
+                        'Find Your Nearest Restaurants',
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold, fontSize: 22),
+                      )
                     ],
                   ),
-                ),
-              ),
-
-              ///---second
-              Container(
-                width: MediaQuery.of(context).size.width,
-                height: MediaQuery.of(context).size.height,
-                color: customGreenColor,
-                child: SafeArea(
-                  bottom: false,
-                  child: Stack(
+                  Column(
                     children: [
-                      Center(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          mainAxisSize: MainAxisSize.max,
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: <Widget>[
-                            const SizedBox(
-                              height: 20,
-                            ),
-                            Text(
-                              "Save Food.\nShop Local.\nSpend Less.",
-                              textAlign: TextAlign.center,
-                              style: state.subHeading,
-                            ),
-                            const SizedBox(
-                              height: 30,
-                            ),
-                            Text(
-                              "Reduce food waste and your\ncarbon footprint by saving\nfood "
-                              "from your local\nBite Hubs",
-                              textAlign: TextAlign.center,
-                              style: state.subTitle,
-                            ),
-                          ],
-                        ),
+                      Stack(
+                        alignment: Alignment.center,
+                        children: [
+                          SizedBox(
+                              height: 200,
+                              child: SvgPicture.asset(
+                                  'assets/onboarding/onboarding2.1.svg')),
+                          SizedBox(
+                              height: 200,
+                              child: SvgPicture.asset(
+                                  'assets/onboarding/onboarding2.2.svg')),
+                        ],
                       ),
-                      Positioned(
-                        bottom: 0,
-                        left: 0,
-                        child: Image.asset(
-                          'assets/onBoard_02.png',
-                          width: MediaQuery.of(context).size.width,
-                          fit: BoxFit.cover,
-                        ),
+                      SizedBox(
+                        height: 50,
                       ),
+                      Text(
+                        'Never wait for your food again',
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold, fontSize: 22),
+                      )
                     ],
                   ),
-                ),
-              ),
-
-              ///---third
-              Container(
-                width: MediaQuery.of(context).size.width,
-                height: MediaQuery.of(context).size.height,
-                color: customThemeColor,
-                child: SafeArea(
-                  bottom: false,
-                  child: Stack(
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
+                      SizedBox(
+                          child: SvgPicture.asset(
+                              'assets/onboarding/onboarding3.svg')),
+                      SizedBox(
+                        height: 50,
+                      ),
                       Center(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          mainAxisSize: MainAxisSize.max,
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: <Widget>[
-                            const SizedBox(
-                              height: 20,
-                            ),
-                            Text(
-                              "Earn Points.\nGet Rewards.\nCollect Badges.",
-                              textAlign: TextAlign.center,
-                              style: state.subHeading,
-                            ),
-                            const SizedBox(
-                              height: 30,
-                            ),
-                            Text(
-                              "Earn points in our Zero Hero"
-                              "\nrewards scheme and collect"
-                              "\nvouchers towards future purchases",
-                              textAlign: TextAlign.center,
-                              style: state.subTitle,
-                            ),
-                          ],
-                        ),
-                      ),
-                      Positioned(
-                        bottom: 0,
-                        left: 0,
-                        child: Image.asset(
-                          'assets/onBoard_03.png',
-                          width: MediaQuery.of(context).size.width,
-                          height: MediaQuery.of(context).size.height * .5,
-                          fit: BoxFit.cover,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-
-              ///---forth
-              Container(
-                width: MediaQuery.of(context).size.width,
-                height: MediaQuery.of(context).size.height,
-                color: customGreenColor,
-                child: SafeArea(
-                  bottom: false,
-                  child: Stack(
-                    children: [
-                      Center(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          mainAxisSize: MainAxisSize.max,
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: <Widget>[
-                            const SizedBox(
-                              height: 20,
-                            ),
-                            Text(
-                              "Bite Alert.",
-                              textAlign: TextAlign.center,
-                              style: state.subHeading,
-                            ),
-                            const SizedBox(
-                              height: 30,
-                            ),
-                            Text(
-                              "Get Bite alert notifications when"
-                              "\nyou favourite a Bite Hub on the"
-                              "\napp so you never miss out !!",
-                              textAlign: TextAlign.center,
-                              style: state.subTitle,
-                            ),
-                          ],
-                        ),
-                      ),
-                      Positioned(
-                        bottom: 0,
-                        left: 0,
-                        child: Image.asset(
-                          'assets/onBoard_04.png',
-                          width: MediaQuery.of(context).size.width,
-                          height: MediaQuery.of(context).size.height * .6,
-                          fit: BoxFit.cover,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-
-              ///---fifth
-              Container(
-                width: MediaQuery.of(context).size.width,
-                height: MediaQuery.of(context).size.height,
-                color: customGreenColor,
-                child: SafeArea(
-                  bottom: false,
-                  child: Stack(
-                    children: [
-                      Center(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          mainAxisSize: MainAxisSize.max,
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: <Widget>[
-                            const SizedBox(
-                              height: 20,
-                            ),
-                            Text(
-                              "Get NFT Rewards",
-                              textAlign: TextAlign.center,
-                              style: GoogleFonts.nunito(
-                                  fontSize: 38,
-                                  fontWeight: FontWeight.w900,
-                                  color: Colors.white),
-                            ),
-                            const SizedBox(
-                              height: 30,
-                            ),
-                            Text(
-                              
-                              "Collect Zero Hero points and \n participate in our campaigns to unlock \n exclusive NFT rewards",
-                              textAlign: TextAlign.center,
-                              style: GoogleFonts.nunito(
-                                  fontSize: 17,
-                                  fontWeight: FontWeight.w900,
-                                  color: Colors.white),
-                            ),
-                          ],
-                        ),
-                      ),
-                      Positioned(
-                        bottom: 0,
-                        left: 0,
-                        child: Image.asset(
-                          'assets/onBoard_05.png',
-                          width: MediaQuery.of(context).size.width,
-                          height: MediaQuery.of(context).size.height * .7,
-                          fit: BoxFit.cover,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            ],
-            fullTransitionValue: 200,
-            enableSideReveal: false,
-            enableLoop: false,
-            onPageChangeCallback: pageChangeCallback,
-            waveType: WaveType.liquidReveal,
-            liquidController: liquidController,
-            slidePercentCallback: slidePercentCallback,
-          ),
-          Padding(
-            padding: const EdgeInsets.all(20),
-            child: Column(
-              children: <Widget>[
-                const Spacer(),
-                page == 4
-                    ? Center(
-                        child: InkWell(
-                          onTap: () {
-                            Get.find<GeneralController>()
-                                .boxStorage
-                                .write('welcomeDone', 'true');
-                            Get.offAllNamed(PageRoutes.login);
-                          },
-                          child: Container(
-                            height: 35,
-                            width: MediaQuery.of(context).size.width * .4,
-                            decoration: BoxDecoration(
-                                color: Colors.black,
-                                borderRadius: BorderRadius.circular(8)),
-                            child: Center(
-                              child: Text(
-                                'Get Started',
-                                style: GoogleFonts.nunito(
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 16,
-                                    color: Colors.white),
-                              ),
-                            ),
-                          ),
+                        child: Text(
+                          'Filter you nearest cafes according to your needs.',
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold, fontSize: 22),
                         ),
                       )
-                    : Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: List<Widget>.generate(5, _buildDot),
-                      ),
-              ],
-            ),
+                    ],
+                  ),
+                ],
+                carouselController: _controller,
+                options: CarouselOptions(
+                    height: 350,
+                    reverse: false,
+                    autoPlayInterval: Duration(seconds: 2),
+                    enableInfiniteScroll: false,
+                    viewportFraction: 1,
+                    enlargeCenterPage: true,
+                    aspectRatio: 2.0,
+                    onPageChanged: (index, reason) {
+                      if (index == 2) {
+                        isCompleted = true;
+                      }
+                      setState(() {
+                        _current = index;
+                      });
+                    }),
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: list.asMap().entries.map((entry) {
+                  return GestureDetector(
+                    onTap: () => _controller.animateToPage(entry.key),
+                    child: Container(
+                      width: 12.0,
+                      height: 12.0,
+                      margin:
+                          EdgeInsets.symmetric(vertical: 8.0, horizontal: 4.0),
+                      decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          border: Border.all(color: Colors.black),
+                          color: (Theme.of(context).brightness ==
+                                      Brightness.dark
+                                  ? Colors.white
+                                  : Color(0xffF28844))
+                              .withOpacity(_current == entry.key ? 0.9 : 0.0)),
+                    ),
+                  );
+                }).toList(),
+              ),
+              SizedBox(
+                height: 10,
+              ),
+              Spacer(),
+              SizedBox(
+                width: MediaQuery.of(context).size.width,
+                height: 43,
+                child: ElevatedButton(
+                  onPressed: () {
+                    // Navigator.push(context, MaterialPageRoute(
+                    //   builder: (context) {
+                    //     return LoginPage();
+                    //   },
+                    // ));
+                    if (isCompleted) {
+                          Get.find<GeneralController>()
+                                .boxStorage
+                                .write('welcomeDone', 'true');
+                      Get.offAll(LoginPage());
+                      
+                    }else{
+                    _controller.nextPage();
+
+                    }
+                  },
+                  child:Text(isCompleted? 'Get Started':'Next') ,
+                  style: ElevatedButton.styleFrom(
+                      primary: Color(0xffF28844),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(18.0),
+                      )),
+                ),
+              ),
+              Spacer(),
+              Visibility(
+                visible: !isCompleted,
+                child: InkWell(
+                    onTap: () {
+                       Get.find<GeneralController>()
+                                .boxStorage
+                                .write('welcomeDone', 'true');
+                      Get.offAll(LoginPage());
+                    },
+                    child: Text('Skip')),
+              ),
+              Spacer()
+            ],
           ),
-        ],
+        ),
       ),
     );
-  }
-
-  pageChangeCallback(int lpage) {
-    log('ControllerIndex--->>>${liquidController!.currentPage.toString()}');
-    log('PageIndex--->>>${lpage.toString()}');
-    setState(() {
-      page = lpage;
-    });
-  }
-
-  slidePercentCallback(double hor, double ver) {
-    // log(hor.toInt().toString() + "    " + ver.toString());
   }
 }

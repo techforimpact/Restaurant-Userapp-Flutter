@@ -58,6 +58,7 @@ class _AllOrdersPageState extends State<AllOrdersPage> {
                 } else {
                   Get.back();
                 }
+                //  Get.offAllNamed(PageRoutes.home);
               },
               child: const Padding(
                 padding: EdgeInsets.all(8.0),
@@ -243,6 +244,7 @@ class _AllOrdersPageState extends State<AllOrdersPage> {
                                                     children: [
                                                       ///---name-otp
                                                       Row(
+                                                        crossAxisAlignment: CrossAxisAlignment.start,
                                                         children: [
                                                           Expanded(
                                                             child: Text(
@@ -251,11 +253,12 @@ class _AllOrdersPageState extends State<AllOrdersPage> {
                                                                 overflow:
                                                                     TextOverflow
                                                                         .ellipsis,
+                                                                        textAlign: TextAlign.justify,
                                                                 style: state
                                                                     .nameTextStyle),
                                                           ),
                                                           const SizedBox(
-                                                            width: 5,
+                                                            width: 12,
                                                           ),
                                                           Expanded(
                                                             child: Align(
@@ -274,7 +277,7 @@ class _AllOrdersPageState extends State<AllOrdersPage> {
                                                                     context)
                                                                 .size
                                                                 .height *
-                                                            .01,
+                                                            .005,
                                                       ),
 
                                                       ///---date
@@ -333,7 +336,7 @@ class _AllOrdersPageState extends State<AllOrdersPage> {
                                                                           2),
                                                                   child: Center(
                                                                     child: Text(
-                                                                        '\Rs${(double.parse(snapshot.data!.docs[index].get('grand_total').toString()) - double.parse(snapshot.data!.docs[index].get('coupon_discount').toString())).toPrecision(2)}',
+                                                                        '\Rs  ${(double.parse(snapshot.data!.docs[index].get('grand_total').toString()) - double.parse(snapshot.data!.docs[index].get('coupon_discount').toString())).toPrecision(2)}',
                                                                         style: state
                                                                             .priceTextStyle!
                                                                             .copyWith(color: Colors.white)),

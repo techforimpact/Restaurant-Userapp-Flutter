@@ -250,7 +250,7 @@ class _PendingReviewPageState extends State<PendingReviewPage> {
                                                                       2),
                                                               child: Center(
                                                                 child: Text(
-                                                                    'Rs${snapshot.data!.docs[index].get('grand_total')}',
+                                                                    'Rs ${snapshot.data!.docs[index].get('grand_total')}',
                                                                     style: state
                                                                         .priceTextStyle!
                                                                         .copyWith(

@@ -1,3 +1,4 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'dart:developer';
 import 'dart:io';
 
@@ -21,15 +22,13 @@ class HomeLogic extends GetxController {
   final state = HomeState();
 //----filters------------------------
 
-bool isBurger=false;
-bool isPizza=false;
-bool isSushi=false;
-bool isDesert=false;
-bool isDrinks=false;
+  bool isBurger = false;
+  bool isPizza = false;
+  bool isSushi = false;
+  bool isDesert = false;
+  bool isDrinks = false;
 
 //------------------------
-
- 
 
   DocumentSnapshot? currentUserData;
   currentUser(BuildContext context) async {
@@ -38,7 +37,6 @@ bool isDrinks=false;
         .where("uid",
             isEqualTo: Get.find<GeneralController>().boxStorage.read('uid'))
         .get();
-
     if (query.docs.isNotEmpty) {
       log('USER---->>>${query.docs[0].get('name')}');
       if (query.docs[0].get('name').toString() == 'guest' ||
@@ -47,7 +45,9 @@ bool isDrinks=false;
       }
       currentUserData = query.docs[0];
       update();
-    } else {}
+    } else {
+      print('-------------->  ${currentUserData}');
+    }
   }
 
   final GlobalKey<FormState> _formKey = GlobalKey();
@@ -99,7 +99,8 @@ bool isDrinks=false;
                                 Text(
                                   'Enter Your Name',
                                   textAlign: TextAlign.start,
-                                  style: TextStyle( fontFamily: 'Poppins',
+                                  style: TextStyle(
+                                      fontFamily: 'Poppins',
                                       fontWeight: FontWeight.w800,
                                       fontSize: 20,
                                       color: customTextGreyColor),
@@ -120,8 +121,8 @@ bool isDrinks=false;
                           autofocus: true,
                           decoration: const InputDecoration(
                             labelText: 'Full Name',
-                            labelStyle:
-                                TextStyle( fontFamily: 'Poppins',color: customThemeColor),
+                            labelStyle: TextStyle(
+                                fontFamily: 'Poppins', color: customThemeColor),
                             border: UnderlineInputBorder(
                                 borderSide:
                                     BorderSide(color: customTextGreyColor)),
@@ -208,6 +209,8 @@ bool isDrinks=false;
 
   int? totalCartCount;
   getCartCount() async {
+    var a=Get.find<GeneralController>().boxStorage.read('uid');
+    print('-----> $a');
     QuerySnapshot query = await FirebaseFirestore.instance
         .collection('cart')
         .where("uid",
@@ -271,7 +274,6 @@ bool isDrinks=false;
     update();
   }
 
- 
   ///----restaurent
   bool restaurentLoader = true;
   List<DocumentSnapshot> restaurentDocumentSnapshotList = [];
@@ -283,6 +285,7 @@ bool isDrinks=false;
     for (var element in queryRestaurent.docs) {
       if (element.get('isActive').toString() == 'true') {
         double? avgRating = 0.0;
+
         List.generate(
             element.get('ratings').length,
             (innerIndex) =>
@@ -317,12 +320,18 @@ bool isDrinks=false;
   bool productLoader = true;
   List<DocumentSnapshot> productsDocumentSnapshotList = [];
   List<Map<String, dynamic>> productsShowList = [];
+  List<CustomDocument> customDocument = [];
 
- Future<QuerySnapshot<Object?>> getTopOfferList() async {
-    productsDocumentSnapshotList=[];
-    productsShowList=[];
-    QuerySnapshot queryProducts =
-        await FirebaseFirestore.instance.collection('products').where('isBurger',isEqualTo:isBurger? isBurger :null).where('isDesert',isEqualTo:isDesert? isDesert :null).where('isDrinks',isEqualTo:isDrinks? isDrinks :null).where('isPizza',isEqualTo:isPizza? isPizza :null).where('isSushi',isEqualTo:isSushi? isSushi :null)
+  Future<QuerySnapshot<Object?>> getTopOfferList() async {
+    productsDocumentSnapshotList = [];
+    productsShowList = [];
+    QuerySnapshot queryProducts = await FirebaseFirestore.instance
+        .collection('products')
+        .where('isBurger', isEqualTo: isBurger ? isBurger : null)
+        .where('isDesert', isEqualTo: isDesert ? isDesert : null)
+        .where('isDrinks', isEqualTo: isDrinks ? isDrinks : null)
+        .where('isPizza', isEqualTo: isPizza ? isPizza : null)
+        .where('isSushi', isEqualTo: isSushi ? isSushi : null)
         .get();
     for (var element in queryProducts.docs) {
       QuerySnapshot queryRestaurant = await FirebaseFirestore.instance
@@ -340,7 +349,7 @@ bool isDrinks=false;
                   double.parse(
                       queryRestaurant.docs[0].get('lng').toString())) ~/
               1000);
-          productsShowList.add({
+          var showMap = {
             'image': element.get('image'),
             'name': element.get('name'),
             'quantity': element.get('quantity'),
@@ -348,18 +357,26 @@ bool isDrinks=false;
             'original_price': element.get('original_price'),
             'discount': element.get('discount'),
             'dis_price': element.get('dis_price'),
-          });
+          };
+          productsShowList.add(showMap);
+          customDocument.add(CustomDocument(
+              restaurentDocumentSnapshot: element,
+              restaurentShowList: showMap));
         }
       }
     }
-    // bitesShowList.sort((a, b) => a['distance'].compareTo(b['distance']));
+
+    customDocument.sort((a, b) {
+      return a.restaurentShowList['distance']
+          .compareTo(b.restaurentShowList['distance']);
+    });
+    productsShowList.sort((a, b) => a['distance'].compareTo(b['distance']));
     update();
     productLoader = false;
     update();
     return queryProducts;
   }
 
- 
   ///------------------------------------LOCATION----START-----------------
   geo_locator.Position? currentPosition;
   double? latitude;
@@ -497,36 +514,81 @@ bool isDrinks=false;
   }
 }
 
-
 //---------------------
-class BookNowLogic  extends GetxController{
-  
-
+class BookNowLogic extends GetxController {
   ///--------category list filter
-  bool isAC=false;
-  bool isTV=false;
-  bool isWifi=false;
-  bool isplay= false;
+  bool isAC = false;
+  bool isTV = false;
+  bool isWifi = false;
+  bool isplay = false;
 
-  void setIsAC(bool ac){
-    isAC=ac;
+  void setIsAC(bool ac) {
+    isAC = ac;
   }
 
-  void setIsTV(bool tv){
-    isTV=tv;
+  void setIsTV(bool tv) {
+    isTV = tv;
   }
-  void setIsWifi(bool wifi){
-    isWifi=wifi;
-  }
-  void setIsPlay(bool play){
-    isplay=play;
-  }
- 
 
-  Future<List<QueryDocumentSnapshot<Map<String, dynamic>>>>  getRestaurentList() async{
-    QuerySnapshot<Map<String, dynamic>> queryRef;
-  queryRef=  await FirebaseFirestore.instance.collection('restaurants').where('isAC',isEqualTo: isAC? isAC:null ).where('isWifi',isEqualTo: isWifi ?isWifi :null ).where('isTV',isEqualTo: isTV? isTV:null ).where('isplay',isEqualTo: isplay?isplay:null ).where('isActive',isEqualTo: true )
-    .get();
-    return queryRef.docs;
+  void setIsWifi(bool wifi) {
+    isWifi = wifi;
   }
+
+  void setIsPlay(bool play) {
+    isplay = play;
+  }
+
+  bool productLoader = true;
+  List<CustomDocument> customDocument = [];
+
+  Future<List<CustomDocument>> getRestaurentList() async {
+    customDocument = [];
+    QuerySnapshot<Map<String, dynamic>> queryRestaurant =
+        await FirebaseFirestore.instance
+            .collection('restaurants')
+            .where('isAC', isEqualTo: isAC ? isAC : null)
+            .where('isWifi', isEqualTo: isWifi ? isWifi : null)
+            .where('isTV', isEqualTo: isTV ? isTV : null)
+            .where('isplay', isEqualTo: isplay ? isplay : null)
+            .where('isActive', isEqualTo: true)
+            .get();
+    if (queryRestaurant.docs.isNotEmpty) {
+      for (var element in queryRestaurant.docs) {
+        int? distance = (geo_locator.Geolocator.distanceBetween(
+                Get.find<HomeLogic>().latitude!,
+                Get.find<HomeLogic>().longitude!,
+                double.parse(element.get('lat').toString()),
+                double.parse(element.get('lng').toString())) ~/
+            1000);
+
+        var showMap = {
+          'image': element.get('image'),
+          'name': element.get('name'),
+          'distance': distance,
+        };
+
+        customDocument.add(CustomDocument(
+            restaurentDocumentSnapshot: element, restaurentShowList: showMap));
+      }
+    }
+
+    customDocument.sort((a, b) {
+      return a.restaurentShowList['distance']
+          .compareTo(b.restaurentShowList['distance']);
+    });
+    update();
+    productLoader = false;
+    update();
+    return customDocument;
+  }
+}
+
+class CustomDocument {
+  DocumentSnapshot restaurentDocumentSnapshot;
+  Map<String, dynamic> restaurentShowList;
+
+  CustomDocument({
+    required this.restaurentDocumentSnapshot,
+    required this.restaurentShowList,
+  });
 }

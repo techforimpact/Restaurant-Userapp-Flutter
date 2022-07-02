@@ -237,7 +237,7 @@ customProceedDialog(BuildContext context) {
                   Container(
                     height: 66,
                     decoration: BoxDecoration(
-                      color: const Color(0xffFFA500).withOpacity(.21),
+                      color: AppColors.greenColor,
                       borderRadius:
                           const BorderRadius.vertical(top: Radius.circular(20)),
                     ),
@@ -396,7 +396,7 @@ customConfirmDialog(BuildContext context ,  ) {
                     Container(
                       height: 66,
                       decoration: BoxDecoration(
-                        color: const Color(0xffFFA500).withOpacity(.21),
+                        color: AppColors.greenColor,
                         borderRadius: const BorderRadius.vertical(
                             top: Radius.circular(20)),
                       ),

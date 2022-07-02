@@ -71,15 +71,7 @@ class _TableDetailPageState extends State<TableDetailPage> {
                         height: 220,
                         width: MediaQuery.of(context).size.width,
                         decoration: BoxDecoration(
-                        //   boxShadow: [
-                        //   BoxShadow(
-                        //     color: customThemeColor.withOpacity(0.19),
-                        //     blurRadius: 40,
-                        //     spreadRadius: 0,
-                        //     offset: const Offset(
-                        //         0, 22), // changes position of shadow
-                        //   ),
-                        // ], 
+                      
                         borderRadius: BorderRadius.circular(20)),
                         child: ClipRRect(
                           borderRadius: BorderRadius.circular(20),

@@ -1,4 +1,5 @@
 
+import 'package:book_a_table/controllers/auth_controller.dart';
 import 'package:book_a_table/controllers/general_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -25,7 +26,6 @@ class _ProfilePageState extends State<ProfilePage> {
   @override
   void initState() {
     super.initState();
-    Get.find<HomeLogic>().currentUser(context);
   }
 
   @override
@@ -116,7 +116,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                                   borderRadius:
                                                       BorderRadius.circular(20),
                                                   child: Image.network(
-                                                    '${_homeLogic.currentUserData!.get('image')}',
+                                                    '${_homeLogic.currentUserData?.get('image')}',
                                                     fit: BoxFit.cover,
                                                   ),
                                                 ),
@@ -132,11 +132,11 @@ class _ProfilePageState extends State<ProfilePage> {
                                           CrossAxisAlignment.start,
                                       children: [
                                         Text(
-                                          '${_homeLogic.currentUserData!.get('name')}',
+                                          '${_homeLogic.currentUserData ?.get('name')}',
                                           style: state.nameTextStyle,
                                         ),
                                         Text(
-                                          '${_homeLogic.currentUserData!.get('email')}',
+                                          '${_homeLogic.currentUserData ?.get('email')}',
                                           style: state.detailTextStyle,
                                         ),
                                         Divider(
@@ -203,43 +203,6 @@ class _ProfilePageState extends State<ProfilePage> {
                               Expanded(
                                 child: Text(
                                   'Pending Reviews',
-                                  style: state.tileTitleTextStyle,
-                                ),
-                              ),
-                              const Icon(
-                                Icons.arrow_forward_ios,
-                                color: Colors.black,
-                                size: 20,
-                              )
-                            ],
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-
-                  ///---My bookings
-                  Padding(
-                    padding: const EdgeInsets.fromLTRB(30, 25, 30, 0),
-                    child: InkWell(
-                      onTap: () {
-                        Get.toNamed(PageRoutes.myBooking);
-                      },
-                      child: Container(
-                        height: 60,
-                        width: MediaQuery.of(context).size.width,
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                      
-                          borderRadius: BorderRadius.circular(20),
-                        ),
-                        child: Padding(
-                          padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
-                          child: Row(
-                            children: [
-                              Expanded(
-                                child: Text(
-                                  'My bookings',
                                   style: state.tileTitleTextStyle,
                                 ),
                               ),
@@ -345,127 +308,7 @@ class _ProfilePageState extends State<ProfilePage> {
                     ),
                   ),
 
-                  ///---My Orders
-                  Padding(
-                    padding: const EdgeInsets.fromLTRB(30, 25, 30, 0),
-                    child: InkWell(
-                      onTap: () {
-                        //!-------------
-                        Get.toNamed(PageRoutes.allOrders);
-                      },
-                      child: Container(
-                        height: 60,
-                        width: MediaQuery.of(context).size.width,
-                        decoration: BoxDecoration(
-                          // boxShadow: [
-                          //   BoxShadow(
-                          //     color: customThemeColor.withOpacity(0.19),
-                          //     blurRadius: 40,
-                          //     spreadRadius: 0,
-                          //     offset: const Offset(
-                          //         0, 22), // changes position of shadow
-                          //   ),
-                          // ],
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(20),
-                        ),
-                        child: Padding(
-                          padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
-                          child: Row(
-                            children: [
-                              Expanded(
-                                child: Text(
-                                  'My Orders',
-                                  style: state.tileTitleTextStyle,
-                                ),
-                              ),
-                              const Icon(
-                                Icons.arrow_forward_ios,
-                                color: Colors.black,
-                                size: 20,
-                              )
-                            ],
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-               
-                      ///---Coupons
-                  Padding(
-                    padding: const EdgeInsets.fromLTRB(30, 25, 30, 0),
-                    child: InkWell(
-                      onTap: () {
-                        //!-------------
-                        Get.toNamed(PageRoutes.coupons);
-                      },
-                      child: Container(
-                        height: 60,
-                        width: MediaQuery.of(context).size.width,
-                        decoration: BoxDecoration(
-                         
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(20),
-                        ),
-                        child: Padding(
-                          padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
-                          child: Row(
-                            children: [
-                              Expanded(
-                                child: Text(
-                                  'Coupons',
-                                  style: state.tileTitleTextStyle,
-                                ),
-                              ),
-                              const Icon(
-                                Icons.arrow_forward_ios,
-                                color: Colors.black,
-                                size: 20,
-                              )
-                            ],
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                   ///---Favourite
-                  Padding(
-                    padding: const EdgeInsets.fromLTRB(30, 25, 30, 0),
-                    child: InkWell(
-                      onTap: () {
-                        //!-------------
-                        Get.toNamed(PageRoutes.favourites);
-                      },
-                      child: Container(
-                        height: 60,
-                        width: MediaQuery.of(context).size.width,
-                        decoration: BoxDecoration(
-                         
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(20),
-                        ),
-                        child: Padding(
-                          padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
-                          child: Row(
-                            children: [
-                              Expanded(
-                                child: Text(
-                                  'Favourite',
-                                  style: state.tileTitleTextStyle,
-                                ),
-                              ),
-                              const Icon(
-                                Icons.arrow_forward_ios,
-                                color: Colors.black,
-                                size: 20,
-                              )
-                            ],
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-              
+                  SizedBox(height: 20,)
                 ],
               )),
         ),

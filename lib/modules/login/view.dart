@@ -192,7 +192,7 @@ class _LoginPageState extends State<LoginPage> {
                               onTap: () {
                                 Get.toNamed(PageRoutes.forgetPassword);
                               },
-                              child: Text("Get Passwrod",
+                              child: Text("Get Password",
                                   style: state.registerTextStyle),
                             )
                           ],
@@ -261,44 +261,29 @@ class _LoginPageState extends State<LoginPage> {
                           height: MediaQuery.of(context).size.height * .03,
                         ),
                         Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            Expanded(
-                                child: Padding(
+                            Padding(
                               padding: const EdgeInsets.only(right: 15),
                               child: Align(
-                                  alignment: Alignment.centerRight,
-                                  child: InkWell(
-                                    onTap: () {
-                                      _generalController.updateFormLoader(true);
-                                      _generalController.firebaseAuthentication
-                                          .signInWithGoogle();
-                                    },
-                                    child: Image.asset(
-                                      'assets/google.png',
-                                      height: 50,
-                                      width: 70,
-                                    ),
-                                  )),
-                            )),
-                            Expanded(
-                                child: Padding(
-                              padding: const EdgeInsets.only(left: 15),
-                              child: Align(
-                                  alignment: Alignment.centerLeft,
-                                  child: InkWell(
-                                    onTap: () {
-                                      _generalController.firebaseAuthentication
-                                          .signInWithFacebook();
-                                    },
-                                    child: Image.asset(
-                                      'assets/fb.png',
-                                      height: 50,
-                                      width: 70,
-                                    ),
-                                  )),
-                            )),
+                              alignment: Alignment.centerRight,
+                              child: InkWell(
+                                onTap: () {
+                                  _generalController.updateFormLoader(true);
+                                  _generalController.firebaseAuthentication
+                                      .signInWithGoogle();
+                                },
+                                child: Image.asset(
+                                  'assets/google.png',
+                                  height: 50,
+                                  width: 70,
+                                ),
+                              )),
+                            ),
+                         
                           ],
-                        )
+                        ),
+                        SizedBox(height: 20,),
                       ],
                     ),
                   ),

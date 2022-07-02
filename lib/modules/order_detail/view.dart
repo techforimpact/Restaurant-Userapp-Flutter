@@ -381,7 +381,7 @@ class _OrderDetailPageState extends State<OrderDetailPage> {
                                               child: Align(
                                                 alignment: Alignment.centerLeft,
                                                 child: Text(
-                                                    'Rs${widget.orderModel!.get('product_list')[index]['original_price']}',
+                                                    'Rs ${widget.orderModel!.get('product_list')[index]['original_price']}',
                                                     style: state
                                                         .productPriceTextStyle!
                                                         .copyWith(
@@ -396,7 +396,7 @@ class _OrderDetailPageState extends State<OrderDetailPage> {
                                               child: Align(
                                                 alignment: Alignment.centerLeft,
                                                 child: Text(
-                                                    'Rs${widget.orderModel!.get('product_list')[index]['dis_price']}',
+                                                    'Rs ${widget.orderModel!.get('product_list')[index]['dis_price']}',
                                                     style: state
                                                         .productPriceTextStyle!
                                                         .copyWith(
@@ -470,7 +470,7 @@ class _OrderDetailPageState extends State<OrderDetailPage> {
                         style: state.billLabelTextStyle,
                       ),
                       Text(
-                        'Rs${double.parse(widget.orderModel!.get('total_price').toString()).toPrecision(2)}',
+                        'Rs ${double.parse(widget.orderModel!.get('total_price').toString()).toPrecision(2)}',
                         style: state.billValueTextStyle,
                       ),
                     ],
@@ -501,7 +501,7 @@ class _OrderDetailPageState extends State<OrderDetailPage> {
                         ],
                       ),
                       Text(
-                        'Rs${(double.parse(widget.orderModel!.get('total_discount').toString()) - double.parse(widget.orderModel!.get('coupon_discount').toString())).toPrecision(2)}',
+                        'Rs ${(double.parse(widget.orderModel!.get('total_discount').toString()) - double.parse(widget.orderModel!.get('coupon_discount').toString())).toPrecision(2)}',
                         style: state.billValueTextStyle,
                       ),
                     ],
@@ -519,7 +519,7 @@ class _OrderDetailPageState extends State<OrderDetailPage> {
                   //       style: state.billLabelTextStyle,
                   //     ),
                   //     Text(
-                  //       'Rs${widget.orderModel!.get('net_price')}',
+                  //       'Rs ${widget.orderModel!.get('net_price')}',
                   //       style: state.billValueTextStyle,
                   //     ),
                   //   ],
@@ -540,7 +540,7 @@ class _OrderDetailPageState extends State<OrderDetailPage> {
                   //             style: state.billLabelTextStyle,
                   //           ),
                   //           Text(
-                  //             'Rs${widget.orderModel!.get('charity')}',
+                  //             'Rs ${widget.orderModel!.get('charity')}',
                   //             style: state.billValueTextStyle,
                   //           ),
                   //         ],
@@ -564,7 +564,7 @@ class _OrderDetailPageState extends State<OrderDetailPage> {
                         style: state.grandTotalTextStyle,
                       ),
                       Text(
-                        'Rs${(double.parse(widget.orderModel!.get('grand_total').toString()) - double.parse(widget.orderModel!.get('coupon_discount').toString())).toPrecision(4)}',
+                        'Rs ${(double.parse(widget.orderModel!.get('grand_total').toString()) - double.parse(widget.orderModel!.get('coupon_discount').toString())).toPrecision(4)}',
                         style: state.grandTotalTextStyle,
                       ),
                     ],

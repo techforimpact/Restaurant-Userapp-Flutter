@@ -1,9 +1,11 @@
 
-import 'package:book_a_table/modules/home_manu/view.dart';
-import 'package:flutter/material.dart';
+import 'package:book_a_table/modules/home/view.dart';
+import 'package:book_a_table/modules/my_bookings/view.dart';
+import 'package:book_a_table/modules/on_board/view.dart';
+import 'package:book_a_table/modules/search/view.dart';
+import 'package:book_a_table/modules/splash/view.dart';
 import 'package:get/get.dart';
 
-import 'modules/all_bookings/view.dart';
 import 'modules/all_orders/view.dart';
 import 'modules/cart/view.dart';
 import 'modules/coupons/view.dart';
@@ -23,16 +25,18 @@ import 'modules/profile/view.dart';
 
 
 routes() => [
-      // GetPage(name: "/splash", page: () => const SplashPage()),
+      GetPage(name: "/splash", page: () => const SplashPage()),
       GetPage(name: "/login", page: () => const LoginPage()),
       GetPage(name: "/phoneLogin", page: () => const PhoneLoginView()),
       GetPage(name: "/signUp", page: () => const SignUpPage()),
-      GetPage(name: "/home", page: () => const HomeMenu()),
       GetPage(name: "/MyBooking", page: () => const AllBookingPage()),
+      GetPage(name: "/home", page: () => const Home()),
+
       GetPage(name: "/productDetail", page: () => const ProductDetailPage()),
       // GetPage(
       //     name: "/restaurantDetail", page: () => const RestaurantDetailPage()),
       GetPage(name: "/cart", page: () => const CartPage()),
+      GetPage(name: "/search", page: () => const SearchPage()),
       GetPage(name: "/payment", page: () {return const PaymentPage();}),
       GetPage(name: "/allOrders", page: () => const AllOrdersPage()),
       GetPage(name: "/profile", page: () => const ProfilePage()),
@@ -44,14 +48,14 @@ routes() => [
       GetPage(name: "/favourites", page: () => const FavouritesPage()),
       GetPage(name: "/savedCards", page: () => const SavedCardsPage()),
       GetPage(name: "/notifications", page: () => const NotificationsPage()),
-      // GetPage(name: "/onBoard", page: () => const OnBoardPage()),
+      GetPage(name: "/onBoard", page: () => const OnBoarding()),
       GetPage(name: "/map", page: () => const MapPage()),
-      // GetPage(name: "/preferences", page: () => const PreferencesPage()),
       GetPage(name: "/forgetPassword", page: () => const ForgotPassword()),
     ];
 
 class PageRoutes {
   static const String splash = '/splash';
+  static const String search = '/search';
   static const String myBooking = '/MyBooking';
   static const String login = '/login';
   static const String phoneLogin = '/phoneLogin';
@@ -76,33 +80,5 @@ class PageRoutes {
   static const String preferences = '/preferences';
   static const String forgetPassword = '/forgetPassword';
 
-  //not used in entire project
-  Map<String, WidgetBuilder> routes() {
-    return {
-      // splash: (context) => const SplashPage(),
-      login: (context) => const LoginPage(),
-      phoneLogin: (context) => const PhoneLoginView(),
-      // signUp: (context) => const SignUpPage(),
-      // home: (context) => const HomePage(),
-      // productDetail: (context) => const ProductDetailPage(),
-      // restaurantDetail: (context) => const RestaurantDetailPage(),
-      // cart: (context) => const CartPage(),
-      // payment: (context) => const PaymentPage(),
-      // allOrders: (context) => const AllOrdersPage(),
-      // profile: (context) => const ProfilePage(),
-      // editProfile: (context) => const EditProfilePage(),
-      // pendingReview: (context) => const PendingReviewPage(),
-      // help: (context) => const HelpPage(),
-      // coupons: (context) => const CouponsPage(),
-      // privacyPolicy: (context) => const PrivacyPolicyPage(),
-      // favourites: (context) => const FavouritesPage(),
-      // savedCards: (context) => const SavedCardsPage(),
-      // notifications: (context) => const NotificationsPage(),
-      // onBoard: (context) => const OnBoardPage(),
-      // map: (context) => const MapPage(),
-      // preferences: (context) => const PreferencesPage(),
-      forgetPassword: (context) => const ForgotPassword(),
-
-    };
-  }
+ 
 }

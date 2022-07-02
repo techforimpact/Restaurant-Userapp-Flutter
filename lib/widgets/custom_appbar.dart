@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_advanced_drawer/flutter_advanced_drawer.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 
 import '../modules/home/logic.dart';
@@ -14,29 +16,32 @@ class CustomAppbar extends StatefulWidget {
 }
 
 class _CustomAppbarState extends State<CustomAppbar> {
-  final HomeLogic logic = Get.find<HomeLogic>();
-
+  final HomeLogic _homeLogic = Get.find<HomeLogic>();
   @override
   Widget build(BuildContext context) {
-    return    Container(
-      padding: const EdgeInsets.all(16),
+    _homeLogic.currentUser(context);
+    return Container(
+      padding: const EdgeInsets.all(4),
       child: Row(
         children: [
-          RichText(
-            text: TextSpan(
-                text: "Hello\n",
-                style: const TextStyle(
-                  color: Colors.black,
-                ),
-                children: [
-                  TextSpan(
-                      text: logic.currentUserData!.get('name'),
-                      style: const TextStyle(
-                        color: AppColors.greenColor,
-                        fontWeight: FontWeight.bold,
-                        height: 1.5,
-                      ))
-                ]),
+          InkWell(
+            onTap: () {
+              _homeLogic.handleMenuButtonPressed();
+            },
+            child: ValueListenableBuilder<AdvancedDrawerValue>(
+              valueListenable: _homeLogic.advancedDrawerController,
+              builder: (_, value, __) {
+                return AnimatedSwitcher(
+                    duration: const Duration(milliseconds: 250),
+                    child: value.visible
+                        ? const Icon(
+                            Icons.arrow_back,
+                            size: 25,
+                            color: customTextGreyColor,
+                          )
+                        : SvgPicture.asset('assets/drawerIcon.svg'));
+              },
+            ),
           ),
           const SizedBox(
             width: 16,
@@ -61,48 +66,71 @@ class _CustomAppbarState extends State<CustomAppbar> {
               ),
             ),
           ),
-          const SizedBox(
-            width: 16,
+         
+          SizedBox(
+            width: 50,
+            height: 30,
+            child: InkWell(
+              onTap: () async {
+                Get.toNamed(PageRoutes.cart);
+              },
+              child: Stack(
+                alignment: Alignment.center,
+                children: [
+                  Positioned(
+                    left: 20,
+                    child: Icon(Icons.shopping_cart,size: 30,)),
+                  GetBuilder<HomeLogic>(builder: (controller) {
+                    return _homeLogic.totalCartCount == null
+                        ? const SizedBox()
+                        : Positioned(
+                            top: 8,
+                            right: 16,
+                            child: CircleAvatar(
+                                backgroundColor: customThemeColor,
+                                radius: 10,
+                                child: Text(
+                                  '${controller.totalCartCount}',
+                                  style: const TextStyle(
+                                      fontFamily: 'Poppins',
+                                      fontWeight: FontWeight.w600,
+                                      color: Colors.white,
+                                      fontSize: 10),
+                                )));
+                  }),
+                ],
+              ),
+            ),
           ),
           InkWell(
-            onTap: () async {
-              Get.toNamed(PageRoutes.cart);
+            onTap: () {
+              Get.toNamed(PageRoutes.map);
             },
-            child: Stack(
-              children: [
-
-                const Padding(
-                    padding: EdgeInsets.fromLTRB(5, 15, 30, 5),
-                    child: Icon(Icons.shopping_cart)),
-               GetBuilder<HomeLogic>(builder: (controller){
-                      return logic.totalCartCount == null
-                    ? const SizedBox()
-                    : Positioned(
-                        top: 5,
-                        right: 12,
-                        child: CircleAvatar(
-                          backgroundColor: customThemeColor,
-                          radius: 10,
-                          child: 
-                          Text(
-                            '${controller.totalCartCount}',
-                            style: const TextStyle( fontFamily: 'Poppins',
-                                fontWeight: FontWeight.w600,
-                                color: Colors.white,
-                                fontSize: 10),
-                          )
-                             
-                          
-                        ));
-               }),
-                
-              ],
+            child: Container(
+              height: 44,
+              decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(30),
+                  boxShadow: [
+                    BoxShadow(
+                      color: customThemeColor.withOpacity(0.19),
+                      blurRadius: 40,
+                      spreadRadius: 0,
+                      offset: const Offset(0, 15), // changes position of shadow
+                    ),
+                  ]),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  SizedBox(
+                    height: 50,
+                    width: 50,
+                    child: Image.asset('assets/images/map_locator.png',)),
+                ],
+              ),
             ),
-          )
+          ),
         ],
       ),
     );
- 
   }
 }
-

@@ -1,7 +1,7 @@
 import 'dart:async';
 
 
-import 'package:book_a_table/modules/home_manu/view.dart';
+import 'package:book_a_table/modules/home/view.dart';
 import 'package:book_a_table/utils/color.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -40,29 +40,20 @@ class _SplashPageState extends State<SplashPage> {
 
   @override
   Widget build(BuildContext context) {
+    WidgetsFlutterBinding.ensureInitialized();
     return Scaffold(
         body: SizedBox(
       height: MediaQuery.of(context).size.height,
       width: MediaQuery.of(context).size.width,
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,  
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Image.asset(
-            'assets/splashImage.png',
+            'assets/logo.png',
             width: MediaQuery.of(context).size.width * .7,
           ),
-          const SizedBox(
-            height: 20,
-          ),
-          const Text(
-            'Food Tastes Better When It’s Saving The World',
-            textAlign: TextAlign.center,
-            style: TextStyle( fontFamily: 'Poppins',
-                fontSize: 14,
-                fontWeight: FontWeight.w900,
-                color: customThemeColor),
-          )
+         
         ],
       ),
     ));
@@ -76,12 +67,12 @@ class ScreenController extends StatelessWidget {
   Widget build(BuildContext context) {
     if (Get.find<GeneralController>().boxStorage.hasData('welcomeDone')) {
       if (Get.find<GeneralController>().boxStorage.hasData('session')) {
-        return const HomeMenu();
+        return const Home();
       } else {
         return const LoginPage();
       }
     } else {
-      return const OnBoardPage();
+      return const OnBoarding();
     }
   }
 }

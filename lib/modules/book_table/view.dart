@@ -1,10 +1,12 @@
 // ignore_for_file: prefer_const_constructors
 
 import 'package:book_a_table/controllers/general_controller.dart';
+import 'package:book_a_table/modules/cart/logic.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'dart:math' as math;
 import 'package:flutter/material.dart';
 import 'package:booking_calendar/booking_calendar.dart';
+import 'package:flutter_animated_dialog/flutter_animated_dialog.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:intl/intl.dart';
@@ -14,10 +16,14 @@ import '../home/logic.dart';
 
 class BookingTable extends StatefulWidget {
   const BookingTable(
-      {Key? key, required this.restaurantModel, required this.isProductInclude})
+      {Key? key,
+      required this.restaurantModel,
+      required this.isProductInclude,
+      this.isFromOrder = false})
       : super(key: key);
   final DocumentSnapshot restaurantModel;
   final bool isProductInclude;
+  final bool isFromOrder;
   @override
   State<BookingTable> createState() => _BookingTableState();
 }
@@ -34,20 +40,18 @@ class _BookingTableState extends State<BookingTable> {
     var closingDate = DateFormat('jm').parse(data);
     var opningDate =
         DateFormat('jm').parse(widget.restaurantModel.get('open_time'));
-   //!--- if ending time greater then starting time then it wil be error
+    //!--- if ending time greater then starting time then it wil be error
     mockBookingService = BookingService(
-        serviceName: 'Mock Service',
+        serviceName: 'Table booking',
         serviceDuration: 60,
         bookingEnd: DateTime(
             now.year, now.month, now.day, closingDate.hour, closingDate.minute),
         bookingStart: DateTime(
             now.year, now.month, now.day, opningDate.hour, opningDate.minute));
-  
   }
 
   Stream<dynamic>? getBookingStreamMock(
       {required DateTime end, required DateTime start}) {
-
     return FirebaseFirestore.instance
         .collection('tableBooking')
         .where('restaurant', isEqualTo: widget.restaurantModel.get('name'))
@@ -57,23 +61,29 @@ class _BookingTableState extends State<BookingTable> {
 
   Future<dynamic> uploadBookingMock(
       {required BookingService newBooking}) async {
-        ///---random-string-open
-  
-  String charsForOtp = '1234567890';
-  math.Random rnd = math.Random();
-String chars =
-      'AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz1234567890';
-  String getRandomString(int length) => String.fromCharCodes(Iterable.generate(
-      length, (_) => chars.codeUnitAt(rnd.nextInt(chars.length))));
-  String getRandomOtp(int length) => String.fromCharCodes(Iterable.generate(
-      length, (_) => charsForOtp.codeUnitAt(rnd.nextInt(charsForOtp.length))));
-      String? getOtp = getRandomOtp(5);
-   
+    ///---random-string-open
+
+    String charsForOtp = '1234567890';
+    math.Random rnd = math.Random();
+    String chars =
+        'AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz1234567890';
+    String getRandomString(int length) =>
+        String.fromCharCodes(Iterable.generate(
+            length, (_) => chars.codeUnitAt(rnd.nextInt(chars.length))));
+    String getRandomOtp(int length) => String.fromCharCodes(Iterable.generate(
+        length,
+        (_) => charsForOtp.codeUnitAt(rnd.nextInt(charsForOtp.length))));
+    String? getOtp = getRandomOtp(5);
+
     final _formKey = GlobalKey<FormState>();
     TextEditingController textEditingController = TextEditingController();
     converted.add(DateTimeRange(
         start: newBooking.bookingStart, end: newBooking.bookingEnd));
-    showDialog(
+
+    showAnimatedDialog(
+        animationType: DialogTransitionType.size,
+        curve: Curves.fastOutSlowIn,
+        duration: Duration(seconds: 1),
         context: context,
         builder: (ctx) {
           return Dialog(
@@ -86,7 +96,7 @@ String chars =
                     padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
                     child: TextFormField(
                       controller: textEditingController,
-                      keyboardType: TextInputType.name,
+                      keyboardType: TextInputType.number,
                       cursorColor: Colors.black,
                       decoration: InputDecoration(
                         labelStyle: TextStyle(color: Colors.black),
@@ -133,16 +143,13 @@ String chars =
                                 .currentUserData!
                                 .get('uid'),
                             'person': textEditingController.text,
-          'otp': getOtp,
-          'date_time': DateTime.now(),
-          'id': getRandomString(5),
-
+                            'otp': getOtp,
+                            'date_time': DateTime.now(),
+                            'id': getRandomString(5),
                             'orderReference': '',
                             'status': 'Pending',
-                            'restaurant':
-                                widget.restaurantModel.get('name'),
-                            'restaurant_id':
-                                widget.restaurantModel.get('id'),
+                            'restaurant': widget.restaurantModel.get('name'),
+                            'restaurant_id': widget.restaurantModel.get('id'),
                             'restaurant_image':
                                 widget.restaurantModel.get('image')
                           }).then((value) {
@@ -151,8 +158,17 @@ String chars =
                                   .tableBookingDocumentReference = value;
                               Get.find<GeneralController>().update();
                             }
+                            
+                             Get.snackbar('Booking Successfull', '',
+                            colorText: Colors.white,
+                            backgroundColor: customThemeColor.withOpacity(0.7),
+                            snackPosition: SnackPosition.BOTTOM,
+                            margin: const EdgeInsets.all(15),
+                         );
                           });
-                          Get.back();
+                          if (widget.isFromOrder) {
+                            Get.find<CartLogic>().isTableBook = true;
+                          }
                           Get.back();
                         }
                       },
@@ -160,17 +176,8 @@ String chars =
                         height: 55,
                         width: MediaQuery.of(context).size.width,
                         decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10),
                           color: customThemeColor,
-                          borderRadius: BorderRadius.circular(30),
-                          // boxShadow: [
-                          //   BoxShadow(
-                          //     color: customThemeColor.withOpacity(0.19),
-                          //     blurRadius: 40,
-                          //     spreadRadius: 0,
-                          //     offset: const Offset(
-                          //         0, 22), // changes position of shadow
-                          //   ),
-                          // ],
                         ),
                         child: Center(
                           child: Text(
@@ -180,7 +187,6 @@ String chars =
                       ),
                     ),
                   ),
-               
                 ],
               ),
             ),
@@ -211,50 +217,54 @@ String chars =
     return converted;
   }
 
-
-               
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-       appBar: 
-        AppBar(
-          elevation: 0,
-          backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-          leading: InkWell(
-            onTap: () {
-                Get.back();
-             
-            },
-            child: const Padding(
-              padding: EdgeInsets.all(8.0),
-              child: Icon(
-                Icons.arrow_back_ios,
-                color: Colors.black,
-                size: 15,
-              ),
+      appBar: AppBar(
+        elevation: 0,
+        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+        leading: InkWell(
+          onTap: () {
+            Get.back();
+          },
+          child: const Padding(
+            padding: EdgeInsets.all(8.0),
+            child: Icon(
+              Icons.arrow_back_ios,
+              color: Colors.black,
+              size: 15,
             ),
           ),
-          centerTitle: true,
-          title: Text(
-            'Orders',
-            style: const TextStyle(        fontSize: 28, fontWeight: FontWeight.w800, color: customTextGreyColor,
-    fontFamily: 'Poppins',),
+        ),
+        centerTitle: true,
+        title: Text(
+          'Table Booking',
+          style: const TextStyle(
+            fontSize: 28,
+            fontWeight: FontWeight.w800,
+            color: customTextGreyColor,
+            fontFamily: 'Poppins',
           ),
         ),
-  
+      ),
       body: Center(
-        child: BookingCalendar(
-          
-          bookingGridCrossAxisCount: 3,
-          bookingGridChildAspectRatio: 1,
-          bookingService: mockBookingService,
-          bookingButtonColor: AppColors.greenColor,
-          
-          bookingButtonText: 'Book Now',
-          convertStreamResultToDateTimeRanges: convertStreamResultMock,
-          getBookingStream: getBookingStreamMock,
-          uploadBooking: uploadBookingMock,
-
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: BookingCalendar(
+            availableSlotColor: AppColors.greenColor,
+            bookingGridCrossAxisCount: 3,
+            bookingGridChildAspectRatio: 1,
+            bookingService: mockBookingService,
+            bookingButtonColor: AppColors.greenColor,
+            bookingButtonText: 'Book Now',
+            formatDateTime: (dateTime) {
+              var dt = DateFormat.jm().format(dateTime);
+              return '${dt}';
+            },
+            convertStreamResultToDateTimeRanges: convertStreamResultMock,
+            getBookingStream: getBookingStreamMock,
+            uploadBooking: uploadBookingMock,
+          ),
         ),
       ),
     );

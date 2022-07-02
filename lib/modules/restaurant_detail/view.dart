@@ -12,7 +12,7 @@ import '../../utils/color.dart';
 import '../home/logic.dart';
 import '../image_full_view/view.dart';
 import '../product_detail/view.dart';
-import '../book_now/view.dart';
+import '../book_table/view.dart';
 import 'logic.dart';
 import 'state.dart';
 
@@ -251,7 +251,7 @@ class _RestaurantDetailPageState extends State<RestaurantDetailPage> {
                               text: 'Menu',
                             ),
                             Tab(text: 'About'),
-                            Tab(text: 'Book A Tables'),
+                            Tab(text: 'Book A Table'),
                           ],
                         )),
                   ),
@@ -446,7 +446,7 @@ class _RestaurantDetailPageState extends State<RestaurantDetailPage> {
                                                                           Alignment
                                                                               .centerLeft,
                                                                       child: Text(
-                                                                          'Rs${snapshot.data!.docs[index].get('original_price')}',
+                                                                          'Rs ${snapshot.data!.docs[index].get('original_price')}',
                                                                           style: state
                                                                               .priceTextStyle!
                                                                               .copyWith(decoration: TextDecoration.lineThrough)),
@@ -478,7 +478,7 @@ class _RestaurantDetailPageState extends State<RestaurantDetailPage> {
                                                                           child:
                                                                               Center(
                                                                             child:
-                                                                                Text('Rs${snapshot.data!.docs[index].get('dis_price')}', style: state.priceTextStyle!.copyWith(color: Colors.white)),
+                                                                                Text('Rs ${snapshot.data!.docs[index].get('dis_price')}', style: state.priceTextStyle!.copyWith(color: Colors.white)),
                                                                           ),
                                                                         ),
                                                                       ),
@@ -671,197 +671,9 @@ class _RestaurantDetailPageState extends State<RestaurantDetailPage> {
                   ),
                 if (_restaurantDetailLogic.tabIndex == 2)                
                 SizedBox(
-                  height: 800,
+                  height: 650,
                   child: BookingTable(restaurantModel: widget.restaurantModel!,isProductInclude: false,))
-           ///---tables-list
-                              // StreamBuilder<QuerySnapshot>(
-                              //     stream: FirebaseFirestore.instance
-                              //         .collection('tables')
-                              //         .snapshots(),
-                              //     builder: (context, snapshot) {
-                              //       if (snapshot.hasData) {
-                              //         if (snapshot.data!.docs.isEmpty) {
-                              //           return Padding(
-                              //             padding:
-                              //                 const EdgeInsets.only(top: 30),
-                              //             child: Text(
-                              //               'Record not found',
-                              //               textAlign: TextAlign.center,
-                              //               style: TextStyle( fontFamily: 'Poppins',
-                              //                   fontSize: 20,
-                              //                   color: Colors.black,
-                                       //                   fontWeight: FontWeight.w600),
-                              //             ),
-                              //           );
-                              //         } else {
-
-                              //           if (snapshot.data!.docs.isNotEmpty) {
-                              //           return FadedSlideAnimation(
-                              //             child: Wrap(
-                              //               children:  List.generate(
-                              //                   snapshot.data!.docs.length,
-                              //                   (index) {
-                                            
-                              //                   return Padding(
-                              //                     padding:
-                              //                         const EdgeInsets.fromLTRB(
-                              //                             15, 30, 15, 0),
-                              //                     child: InkWell(
-                              //                       onTap: () {
-                                                      
-                              //                         Get.to(TableDetailPage(
-                              //                           productModel: snapshot
-                              //                               .data!.docs[index],
-                              //                           isProduct: false,
-                              //                         ));
-                              //                       },
-                              //                       child: Container(
-                              //                         width:
-                              //                             MediaQuery.of(context)
-                              //                                 .size
-                              //                                 .width,
-                              //                         decoration: BoxDecoration(
-                              //                           color: snapshot.data!.docs[index]
-                              //                         .get('is_reserve')?Colors.red: Colors.green,
-                              //                           borderRadius:
-                              //                               BorderRadius
-                              //                                   .circular(19),
-                              //                           boxShadow: [
-                              //                             BoxShadow(
-                              //                               color:
-                              //                                   customThemeColor
-                              //                                       .withOpacity(
-                              //                                           0.19),
-                              //                               blurRadius: 40,
-                              //                               spreadRadius: 0,
-                              //                               offset: const Offset(
-                              //                                   0,
-                              //                                   22), // changes position of shadow
-                              //                             ),
-                              //                           ],
-                              //                         ),
-                              //                         child: Padding(
-                              //                           padding:
-                              //                               const EdgeInsets
-                              //                                   .all(20.0),
-                              //                           child: Row(
-                              //                             children: [
-                              //                               ///---image
-                              //                               Hero(
-                              //                                 tag:
-                              //                                     '${snapshot.data!.docs[index].get('image')}',
-                              //                                 child: Material(
-                              //                                   child:
-                              //                                       Container(
-                              //                                     height: 80,
-                              //                                     width: 80,
-                              //                                 color: snapshot.data!.docs[index]
-                              //                         .get('is_reserve')?Colors.red: Colors.green,
-                              //                                     child:
-                              //                                         ClipRRect(
-                              //                                       borderRadius:
-                              //                                           BorderRadius.circular(
-                              //                                               10),
-                              //                                       child: Image
-                              //                                           .network(
-                              //                                         '${snapshot.data!.docs[index].get('image')}',
-                              //                                         fit: BoxFit
-                              //                                             .cover,
-                              //                                       ),
-                              //                                     ),
-                              //                                   ),
-                              //                                 ),
-                              //                               ),
-
-                              //                               ///---detail
-                              //                               Expanded(
-                              //                                   child: Align(
-                              //                                 alignment: Alignment
-                              //                                     .centerLeft,
-                              //                                 child: Padding(
-                              //                                   padding:
-                              //                                       const EdgeInsets
-                              //                                               .only(
-                              //                                           left:
-                              //                                               20),
-                              //                                   child: Column(
-                              //                                     crossAxisAlignment:
-                              //                                         CrossAxisAlignment
-                              //                                             .start,
-                              //                                     mainAxisAlignment:
-                              //                                         MainAxisAlignment
-                              //                                             .center,
-                              //                                     children: [
-                              //                                       ///---name
-                              //                                       Text(
-                              //                                           'Table Name : ${snapshot.data!.docs[index]
-                              //                         .get('table_name')}',
-                              //                                           style: state
-                              //                                               .nameTextStyle!.copyWith(color: Colors.white)),
-                              //                                       SizedBox(
-                              //                                         height: MediaQuery.of(context)
-                              //                                                 .size
-                              //                                                 .height *
-                              //                                             .01,
-                              //                                       ),
-
-                              //                                       ///---quantity-discount
-                              //                                       Row(
-                              //                                         crossAxisAlignment:
-                              //                                             CrossAxisAlignment
-                              //                                                 .start,
-                              //                                                 mainAxisAlignment: MainAxisAlignment.start,
-                              //                                         children: [
-                              //                                           //No Of Charis
-                              //                                           Expanded(
-                              //                                             child:
-                              //                                                 Text('No Of Chairs : ${snapshot.data!.docs[index].get('table_chairs_count')}', style: state.priceTextStyle!.copyWith(color: Colors.white)),
-                              //                                           ),
-                              //                                         ],
-                              //                                       ),
-                                                                 
-                              //                                       SizedBox(
-                              //                                         height: MediaQuery.of(context)
-                              //                                                 .size
-                              //                                                 .height *
-                              //                                             .01,
-                              //                                       ),    
-                              //                                       //Table notes
-                              //                                        Align(
-                              //                                            alignment:
-                              //                                                   Alignment.centerLeft,
-                              //                                          child: Text('Table Note: ${snapshot.data!.docs[index].get('table_note')}', style: state.priceTextStyle!.copyWith(color: Colors.white)),
-                              //                                        ),
-                                                                  
-                              //                                     ],
-                              //                                   ),
-                              //                                 ),
-                              //                               ))
-                              //                             ],
-                              //                           ),
-                              //                         ),
-                              //                       ),
-                              //                     ),
-                              //                   );
-                                             
-                                             
-                                             
-                              //               }),
-                              //             ),
-                              //             beginOffset: const Offset(0, 0.3),
-                              //             endOffset: const Offset(0, 0),
-                              //             slideCurve: Curves.linearToEaseOut,
-                              //           );
-                                          
-                              //           }else{
-                              //             return const SizedBox();
-                              //           }
-                                     
-                              //         }
-                              //       } else {
-                              //         return const Center(child:  CircularProgressIndicator());
-                              //       }
-                              //     }),
+         
 
              
               ],

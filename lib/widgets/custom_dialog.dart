@@ -149,7 +149,6 @@ dissmissProgress(){
 
 showToast(String data, {double fontsize = 16.0,}) {
 
-  // Get.snackbar(data,'');
   Fluttertoast.showToast(
       msg: data,
       toastLength: Toast.LENGTH_LONG,

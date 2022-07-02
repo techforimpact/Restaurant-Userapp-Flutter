@@ -219,7 +219,7 @@ class _SearchPageState extends State<SearchPage> {
                                                             alignment: Alignment
                                                                 .center,
                                                             child: Text(
-                                                                'Rs${_searchLogic.tempSearchForProductStore[index].get('original_price')}',
+                                                                'Rs ${_searchLogic.tempSearchForProductStore[index].get('original_price')}',
                                                                 style: state
                                                                     .priceTextStyle!
                                                                     .copyWith(
@@ -282,7 +282,7 @@ class _SearchPageState extends State<SearchPage> {
                                                                         2),
                                                                 child: Center(
                                                                   child: Text(
-                                                                      'Rs${_searchLogic.tempSearchForProductStore[index].get('dis_price')}',
+                                                                      'Rs ${_searchLogic.tempSearchForProductStore[index].get('dis_price')}',
                                                                       style: state
                                                                           .priceTextStyle!
                                                                           .copyWith(

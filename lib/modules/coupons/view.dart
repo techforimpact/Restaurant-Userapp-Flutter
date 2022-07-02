@@ -81,7 +81,7 @@ class _CouponsPageState extends State<CouponsPage> {
                                       const EdgeInsets.fromLTRB(0, 10, 0, 10),
                                   child: ListTile(
                                     leading: Image.asset(
-                                      'assets/icon.png',
+                                      'assets/logo.png',
                                       width: 50,
                                       fit: BoxFit.fill,
                                     ),
@@ -94,8 +94,8 @@ class _CouponsPageState extends State<CouponsPage> {
                                                       .get('discountMethod')
                                                       .toString() ==
                                                   'Flat Discount'
-                                              ? 'Rs${data.docsList![index].get('discount')} off'
-                                              : 'Rs${data.docsList![index].get('discount')}% off',
+                                              ? 'Rs ${data.docsList![index].get('discount')} off'
+                                              : 'Rs ${data.docsList![index].get('discount')}% off',
                                           style: state.titleTextStyle,
                                         ),
                                         Text(

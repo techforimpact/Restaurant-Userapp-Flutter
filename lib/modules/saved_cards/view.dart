@@ -5,6 +5,7 @@ import 'package:book_a_table/utils/text_style.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_animated_dialog/flutter_animated_dialog.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
@@ -79,7 +80,8 @@ class _SavedCardsPageState extends State<SavedCardsPage> {
                   ),
                   const Text(
                     'swipe on Card to delete',
-                    style: TextStyle( fontFamily: 'Poppins',
+                    style: TextStyle(
+                        fontFamily: 'Poppins',
                         fontSize: 10,
                         fontWeight: FontWeight.w700,
                         color: customTextGreyColor),
@@ -148,7 +150,8 @@ class _SavedCardsPageState extends State<SavedCardsPage> {
                                 child: Center(
                                   child: Text(
                                     'No Saved Card Found',
-                                    style: TextStyle( fontFamily: 'Poppins',
+                                    style: TextStyle(
+                                        fontFamily: 'Poppins',
                                         fontWeight: FontWeight.w800,
                                         fontSize: 20,
                                         color: Colors.white),
@@ -167,32 +170,85 @@ class _SavedCardsPageState extends State<SavedCardsPage> {
                                       endActionPane: ActionPane(
                                         motion: const StretchMotion(),
                                         children: [
-                                             InkWell(
-                                              onTap: () {
-                                                FirebaseFirestore.instance
-                                                    .collection('credit_cards')
-                                                    .doc(snapshot
-                                                        .data!.docs[index].id)
-                                                    .delete();
-                                              },
-                                              child: const CircleAvatar(
-                                                radius: 25,
-                                                backgroundColor: Colors.red,
-                                                child: Icon(
-                                                  Icons.delete_forever,
-                                                  color: Colors.white,
-                                                  size: 25,
-                                                ),
+                                          SizedBox(width: 40,),
+                                          InkWell(
+                                            onTap: () {
+                                              showAnimatedDialog(
+                                                  animationType:
+                                                      DialogTransitionType.size,
+                                                  curve: Curves.fastOutSlowIn,
+                                                  duration:
+                                                      Duration(seconds: 1),
+                                                  context: context,
+                                                  builder:
+                                                      (BuildContext context) {
+                                                    return AlertDialog(
+                                                      title: Text('Delete'),
+                                                      content: Text(
+                                                          "Do you want to delete it"),
+                                                      actions: <Widget>[
+                                                        TextButton(
+                                                            onPressed:
+                                                                () async {
+                                                              Navigator.pop(
+                                                                  context);
+                                                            },
+                                                            child: Text("No",
+                                                                style: GoogleFonts.nunito(
+                                                                    fontSize:
+                                                                        18,
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .bold,
+                                                                    color: Colors
+                                                                        .blue))),
+                                                        TextButton(
+                                                            onPressed:
+                                                                () async {
+                                                              Navigator.pop(
+                                                                  context);
+                                                              FirebaseFirestore
+                                                                  .instance
+                                                                  .collection(
+                                                                      'credit_cards')
+                                                                  .doc(snapshot
+                                                                      .data!
+                                                                      .docs[
+                                                                          index]
+                                                                      .id)
+                                                                  .delete();
+                                                            },
+                                                            child: Text("Yes",
+                                                                style: GoogleFonts.nunito(
+                                                                    fontSize:
+                                                                        18,
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .bold,
+                                                                    color: Colors
+                                                                        .blue))),
+                                                      ],
+                                                    );
+                                                  });
+                                            },
+                                            child: const CircleAvatar(
+                                              radius: 25,
+                                              backgroundColor: Colors.red,
+                                              child: Icon(
+                                                Icons.delete_forever,
+                                                color: Colors.white,
+                                                size: 25,
                                               ),
                                             ),
-                                         
+                                          ),
+
                                           // SlidableAction(
                                           //   onPressed:
                                           //       (BuildContext context) {},
                                           //   backgroundColor: Colors.transparent,
                                           //   foregroundColor: Colors.white,
-                                          //   icon: 
-                                         
+                                          //   icon:
+
                                           // ),
                                         ],
                                       ),
@@ -216,7 +272,8 @@ class _SavedCardsPageState extends State<SavedCardsPage> {
                                                 '${snapshot.data!.docs[index].get('card_number').toString().substring(0, 4)}'
                                                 ' **** **** '
                                                 '${snapshot.data!.docs[index].get('card_number').toString().substring(12, 16)}',
-                                                style: const TextStyle( fontFamily: 'Poppins',
+                                                style: const TextStyle(
+                                                    fontFamily: 'Poppins',
                                                     fontSize: 14,
                                                     fontWeight: FontWeight.w500,
                                                     color: Colors.white),
@@ -249,7 +306,8 @@ class _SavedCardsPageState extends State<SavedCardsPage> {
                               child: Center(
                                 child: Text(
                                   'No Saved Card Found',
-                                  style: TextStyle( fontFamily: 'Poppins',
+                                  style: TextStyle(
+                                      fontFamily: 'Poppins',
                                       fontWeight: FontWeight.w800,
                                       fontSize: 20,
                                       color: Colors.white),
@@ -278,7 +336,7 @@ class _SavedCardsPageState extends State<SavedCardsPage> {
             decoration: BoxDecoration(
                 color: customThemeColor,
                 borderRadius: BorderRadius.circular(30)),
-            child:const Center(
+            child: const Center(
               child: Text(
                 'Add Card',
                 style: kTopHeadingStyle,
@@ -342,10 +400,11 @@ class _SavedCardsPageState extends State<SavedCardsPage> {
                           autofocus: true,
                           decoration: const InputDecoration(
                             labelText: 'Card number',
-                            labelStyle:
-                                TextStyle( fontFamily: 'Poppins',color: customThemeColor),
+                            labelStyle: TextStyle(
+                                fontFamily: 'Poppins', color: customThemeColor),
                             hintText: '1234 1234 1234 1234',
-                            hintStyle: TextStyle( fontFamily: 'Poppins',
+                            hintStyle: TextStyle(
+                              fontFamily: 'Poppins',
                               color: customTextGreyColor,
                             ),
                             border: UnderlineInputBorder(
@@ -387,10 +446,12 @@ class _SavedCardsPageState extends State<SavedCardsPage> {
                                   autofocus: true,
                                   decoration: const InputDecoration(
                                     labelText: 'Expiry date',
-                                    labelStyle: TextStyle( fontFamily: 'Poppins',
+                                    labelStyle: TextStyle(
+                                        fontFamily: 'Poppins',
                                         color: customThemeColor),
                                     hintText: 'MM/YY',
-                                    hintStyle: TextStyle( fontFamily: 'Poppins',
+                                    hintStyle: TextStyle(
+                                      fontFamily: 'Poppins',
                                       color: customTextGreyColor,
                                     ),
                                     border: UnderlineInputBorder(
@@ -429,10 +490,12 @@ class _SavedCardsPageState extends State<SavedCardsPage> {
                                   autofocus: true,
                                   decoration: const InputDecoration(
                                     labelText: 'CVC',
-                                    labelStyle: TextStyle( fontFamily: 'Poppins',
+                                    labelStyle: TextStyle(
+                                        fontFamily: 'Poppins',
                                         color: customThemeColor),
                                     hintText: '123',
-                                    hintStyle: TextStyle( fontFamily: 'Poppins',
+                                    hintStyle: TextStyle(
+                                      fontFamily: 'Poppins',
                                       color: customTextGreyColor,
                                     ),
                                     border: UnderlineInputBorder(

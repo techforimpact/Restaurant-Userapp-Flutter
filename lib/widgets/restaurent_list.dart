@@ -24,11 +24,10 @@ class _BookNowRestaurentListWidgetState
   Widget build(BuildContext context) {
 
     return GetBuilder<BookNowLogic>(
-        builder: (_bookNowLogic) => FutureBuilder<
-                List<QueryDocumentSnapshot<Map<String, dynamic>>>>(
+        builder: (_bookNowLogic) => FutureBuilder<List<CustomDocument>>(
             future: _bookNowLogic.getRestaurentList(),
             builder: (context, snapshot) {
-              if (snapshot.hasData && Get.find<HomeLogic>().latitude!=null) {
+              if (snapshot.hasData ) {
                 var data = snapshot.data!;
            
                 return FadedSlideAnimation(
@@ -36,24 +35,19 @@ class _BookNowRestaurentListWidgetState
                     child: Wrap(
                       children: List.generate(data.length, (index) {
                         
-                        int? distance = (geo_locator.Geolocator.distanceBetween(
-                                Get.find<HomeLogic>().latitude!,
-                                Get.find<HomeLogic>().longitude!,
-                                double.parse(data[index].get('lat').toString()),
-                                double.parse(
-                                    data[index].get('lng').toString())) ~/
-                            1000);
+                     
                         double avgRating = 0.0;
                         List.generate(
-                            data[index].get('ratings').length,
+                            data[index].restaurentDocumentSnapshot.get('ratings').length,
                             (innerIndex) => avgRating = avgRating +
-                                data[index].get('ratings')[innerIndex]);
+                                data[index].restaurentDocumentSnapshot.get('ratings')[innerIndex]);
+                            
                         return Padding(
                           padding: const EdgeInsets.only(bottom: 10),
                           child: InkWell(
                             onTap: () {
                               Get.to(RestaurantDetailPage(
-                                restaurantModel: data[index],
+                                restaurantModel: data[index].restaurentDocumentSnapshot,
                               ));
                             },
                             child: Container(
@@ -68,7 +62,7 @@ class _BookNowRestaurentListWidgetState
                                   children: [
                                     ///---image
                                     Hero(
-                                      tag: '${data[index]['image']}',
+                                      tag: '${data[index].restaurentShowList['image']}',
                                       child: Material(
                                         color: Colors.transparent,
                                         child: Container(
@@ -80,8 +74,8 @@ class _BookNowRestaurentListWidgetState
                                           child: ClipRRect(
                                             borderRadius:
                                                 BorderRadius.circular(40),
-                                            child: data[index]['image']==null? const Text(''): Image.network(
-                                              '${data[index]['image']}',
+                                            child: data[index].restaurentShowList['image']==null? const Text(''): Image.network(
+                                              '${data[index].restaurentShowList['image']}',
                                               fit: BoxFit.cover,
                                             ),
                                           ),
@@ -103,7 +97,7 @@ class _BookNowRestaurentListWidgetState
                                               MainAxisAlignment.center,
                                           children: [
                                             ///---name
-                                            Text('${data[index]['name']}',
+                                            Text('${data[index].restaurentShowList['name']}',
                                                 style: const TextStyle(
                                                   fontWeight: FontWeight.bold,
                                                   fontSize: 20,
@@ -117,7 +111,7 @@ class _BookNowRestaurentListWidgetState
 
                                             ///---timings
                                             Text(
-                                                '${data[index]['open_time']} - ${data[index]['close_time']}',
+                                                '${data[index].restaurentDocumentSnapshot['open_time']} - ${data[index].restaurentDocumentSnapshot['close_time']}',
                                                 style: const TextStyle(
                                                   fontWeight: FontWeight.bold,
                                                   fontSize: 16,
@@ -135,22 +129,28 @@ class _BookNowRestaurentListWidgetState
                                                       .spaceBetween,
                                               children: [
                                                 ///---distance
-                                                Text(
-                                                  '${distance}km',
+                                                Expanded(
+                                                  child: Text(
+                                                    '${data[index].restaurentShowList['distance']  } km',
+                                                  ),
                                                 ),
 
                                                 ///---rating
-                                                Row(
-                                                  children: [
-                                                    const Icon(
-                                                      Icons.star,
-                                                      color: Colors.yellow,
-                                                      size: 20,
-                                                    ),
-                                                    Text(
-                                                      '${avgRating == 0.0 ? 'Not Rated' : avgRating}',
-                                                    ),
-                                                  ],
+                                                Expanded(
+                                                  child: Row(
+                                                    children: [
+                                                      const Icon(
+                                                        Icons.star,
+                                                        color: Colors.yellow,
+                                                        size: 20,
+                                                      ),
+                                                      Expanded(
+                                                        child: Text(
+                                                          '${avgRating == 0.0 ? 'Not Rated' : avgRating}',
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  ),
                                                 ),
                                               ],
                                             ),

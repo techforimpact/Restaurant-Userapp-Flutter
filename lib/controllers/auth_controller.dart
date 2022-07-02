@@ -4,7 +4,6 @@ import 'dart:developer';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:get/get.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
@@ -15,53 +14,6 @@ import '../utils/color.dart';
 import 'general_controller.dart';
 
 class FirebaseAuthentication {
-  void signInWithFacebook() async {
-    // Trigger the sign-in flow
-    final LoginResult loginResult = await FacebookAuth.instance.login();
-
-    // Create a credential from the access token
-    final OAuthCredential facebookAuthCredential =
-        FacebookAuthProvider.credential(loginResult.accessToken!.token);
-    final UserCredential userCredential = await FirebaseAuth.instance
-        .signInWithCredential(facebookAuthCredential);
-    User? user = userCredential.user;
-    QuerySnapshot querySnapshot = await FirebaseFirestore.instance
-        .collection('users')
-        .where('uid', isEqualTo: user!.uid)
-        .get();
-    if (querySnapshot.docs.isNotEmpty) {
-      Get.find<GeneralController>()
-          .boxStorage
-          .write('uid', user.uid.toString());
-      Get.find<GeneralController>()
-          .boxStorage
-          .write('userName', user.displayName);
-      log('user exist');
-      Get.find<GeneralController>().boxStorage.write('session', 'active');
-      Get.find<GeneralController>().updateFormLoader(false);
-
-      Get.offAllNamed(PageRoutes.home);
-    } else {
-      Get.find<GeneralController>().boxStorage.write('uid', user.uid);
-      _firestore.collection('users').doc(user.uid).set({
-        'name': 'Guest',
-        'phone': user.phoneNumber ?? '',
-        'image': user.photoURL ?? '',
-        'address': '',
-        'role': 'customer',
-        'email': user.email,
-        'uid': user.uid,
-      });
-
-      Get.find<GeneralController>().updateFormLoader(false);
-      Get.find<GeneralController>().boxStorage.write('session', 'active');
-
-      Get.offAllNamed(PageRoutes.home);
-    }
-    log('FB-->>${user.email}');
-    // Once signed in, return the UserCredential
-    // return FirebaseAuth.instance.signInWithCredential(facebookAuthCredential);
-  }
 
   void signInWithGoogle() async {
     try {
