@@ -147,12 +147,12 @@ class _PaymentPageState extends State<PaymentPage> {
                                   child: Stack(
                                     children: [
                                       Image.asset('assets/cardBackground.png'),
-                                      Positioned(
-                                          bottom: 20,
-                                          right: 40,
-                                          child: Image.asset(
-                                            'assets/card_bottom_logo.png',
-                                          )),
+                                      // Positioned(
+                                      //     bottom: 20,
+                                      //     right: 40,
+                                      //     child: Image.asset(
+                                      //       'assets/card_bottom_logo.png',
+                                      //     )),
                                       const Padding(
                                         padding: EdgeInsets.fromLTRB(
                                             0, 30, 0, 0),
